@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { ComplianceReport } from "@/lib/report-generator";
 import { RiskBadge } from "@/components/risk-badge";
 import { RequirementCard } from "@/components/requirement-card";
@@ -61,39 +61,15 @@ function ShareButton() {
   );
 }
 
-type PlanState = "checking" | "anon" | "free" | "pro";
-
 function PdfDownloadButton({ report }: { report: ComplianceReport }) {
-  const [plan, setPlan] = useState<PlanState>("checking");
-  const [showUpgrade, setShowUpgrade] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [redirecting, setRedirecting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function checkPlan() {
-      try {
-        const response = await fetch("/api/subscription");
-        const data = await response.json().catch(() => null);
-        const nextPlan: PlanState =
-          data?.plan === "pro" || data?.plan === "anon" ? data.plan : "free";
-        if (!cancelled) setPlan(nextPlan);
-      } catch {
-        if (!cancelled) setPlan("free");
-      }
-    }
-
-    checkPlan();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const [needsSignIn, setNeedsSignIn] = useState(false);
 
   async function handleDownload() {
     setDownloading(true);
     setErrorMsg(null);
+    setNeedsSignIn(false);
     try {
       const response = await fetch("/api/pdf", {
         method: "POST",
@@ -102,6 +78,10 @@ function PdfDownloadButton({ report }: { report: ComplianceReport }) {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          setNeedsSignIn(true);
+          throw new Error("Sign in to download your PDF report.");
+        }
         const data = await response.json().catch(() => null);
         throw new Error(data?.error ?? "PDF generation failed.");
       }
@@ -124,87 +104,28 @@ function PdfDownloadButton({ report }: { report: ComplianceReport }) {
     }
   }
 
-  async function handleUpgrade() {
-    setRedirecting(true);
-    setErrorMsg(null);
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: "pro" }),
-      });
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok || !data?.url) {
-        throw new Error(data?.error ?? "Could not start checkout.");
-      }
-
-      window.location.href = data.url;
-    } catch (err) {
-      setErrorMsg(
-        err instanceof Error ? err.message : "Could not start checkout."
-      );
-      setRedirecting(false);
-    }
-  }
-
-  if (plan === "pro") {
-    return (
-      <div className="inline-flex flex-col items-end gap-1">
-        <button
-          type="button"
-          onClick={handleDownload}
-          disabled={downloading}
-          className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
-        >
-          {downloading ? "Generating PDF..." : "Download PDF"}
-        </button>
-        {errorMsg && <p className="text-xs text-danger">{errorMsg}</p>}
-      </div>
-    );
-  }
-
   return (
-    <div className="relative inline-block">
+    <div className="inline-flex flex-col items-end gap-1">
       <button
         type="button"
-        onClick={() => setShowUpgrade((v) => !v)}
-        aria-expanded={showUpgrade}
-        className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong"
+        onClick={handleDownload}
+        disabled={downloading}
+        className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Download PDF
+        {downloading ? "Generating PDF..." : "Download PDF"}
       </button>
-      {showUpgrade && (
-        <div
-          role="tooltip"
-          className="absolute right-0 z-10 mt-2 w-64 rounded-sm border border-border bg-surface p-3 text-xs shadow-lg"
-        >
-          <p className="font-heading font-semibold text-ink">
-            Upgrade to Pro
-          </p>
-          <p className="mt-1 leading-relaxed text-ink-muted">
-            PDF export is a Pro feature. Upgrade your account to download a
-            shareable, print-ready compliance report.
-          </p>
-          {plan === "anon" ? (
-            <a
-              href="/dashboard"
-              className="mt-3 inline-flex w-full items-center justify-center rounded-sm bg-accent px-3 py-2 font-medium text-canvas transition-colors hover:bg-accent-strong"
-            >
-              Sign in to upgrade
-            </a>
-          ) : (
-            <button
-              type="button"
-              onClick={handleUpgrade}
-              disabled={redirecting}
-              className="mt-3 inline-flex w-full items-center justify-center rounded-sm bg-accent px-3 py-2 font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {redirecting ? "Redirecting..." : "Upgrade -- $29/mo"}
-            </button>
+      {errorMsg && (
+        <p className="max-w-xs text-right text-xs text-danger">
+          {errorMsg}
+          {needsSignIn && (
+            <>
+              {" "}
+              <a href="/dashboard" className="underline">
+                Sign in
+              </a>
+            </>
           )}
-          {errorMsg && <p className="mt-2 text-danger">{errorMsg}</p>}
-        </div>
+        </p>
       )}
     </div>
   );

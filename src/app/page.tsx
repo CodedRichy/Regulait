@@ -6,7 +6,6 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/nextjs";
-import { PricingTable } from "@/components/pricing-table";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { EnforcementCountdown } from "@/components/enforcement-countdown";
 
@@ -78,12 +77,6 @@ export default function Home() {
               How it works
             </a>
             <a
-              href="#pricing"
-              className="text-sm text-ink-muted transition-colors hover:text-ink"
-            >
-              Pricing
-            </a>
-            <a
               href="#faq"
               className="text-sm text-ink-muted transition-colors hover:text-ink"
             >
@@ -147,14 +140,8 @@ export default function Home() {
               href="/scan"
               className="inline-flex items-center justify-center rounded-sm bg-accent px-8 py-3.5 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
             >
-              Run your free compliance scan
+              Check your AI system -- free
             </Link>
-            <a
-              href="#pricing"
-              className="text-sm font-medium text-ink-muted transition-colors hover:text-ink"
-            >
-              See pricing
-            </a>
           </div>
 
           <p className="mt-4 font-mono text-xs uppercase tracking-widest text-ink-muted">
@@ -231,26 +218,6 @@ export default function Home() {
               </p>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section id="pricing" className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="mb-14 max-w-xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-              Pricing
-            </p>
-            <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-              Simple, transparent pricing
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-              Start free. Upgrade when you need the full report. Cancel
-              anytime.
-            </p>
-          </div>
-
-          <PricingTable />
         </div>
       </section>
 
