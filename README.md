@@ -2,31 +2,38 @@
 
 ![Regulait Banner](public/og-banner.png)
 
-**Free EU AI Act compliance checker.** Describe your AI system, get an instant risk classification with actionable requirements -- before enforcement begins August 2, 2026.
+### Free EU AI Act Compliance Checker
 
-Non-compliance fines reach EUR 35M or 7% of global annual turnover. Two minutes with Regulait tells you where you stand.
+**[Try it live](https://codedrichy.github.io/Regulait/)** -- classify your AI system and get actionable requirements in under 2 minutes.
+
+Non-compliance fines reach EUR 35 million or 7% of global annual turnover. Regulait tells you where you stand before enforcement begins **August 2, 2026**.
+
+---
+
+## What it does
+
+Describe your AI system. Regulait classifies it against the EU AI Act's own risk tiers and returns:
+
+- **Risk tier** (Unacceptable / High / Limited / Minimal) with cited reasoning
+- **Action checklist** -- every applicable Article, tagged by effort and deadline
+- **Exportable report** you can hand to legal counsel or auditors
+
+75 AI systems tested across healthcare, finance, law enforcement, education, and more. 20 deterministic rules covering Article 5 prohibitions and Annex III categories.
 
 ## How it works
 
-1. **Describe** -- What your AI system does, who uses it, what data it touches
-2. **Classify** -- Checked against Article 5 prohibitions and Annex III high-risk categories
-3. **Act** -- Prioritized checklist of applicable requirements with effort estimates and deadlines
+A **deterministic rule engine** handles most cases entirely in your browser -- no API key needed, no data leaves your device. For edge cases, an optional **LLM fallback** (bring your own key) provides higher-confidence classification.
 
-Risk tiers: **Unacceptable** / **High** / **Limited** / **Minimal** -- each with specific obligations, penalties, and exemptions.
+| Provider | Browser | Local |
+|----------|---------|-------|
+| Gemini | Yes | Yes |
+| OpenAI | -- | Yes |
+| Groq | -- | Yes |
+| Anthropic | -- | Yes |
 
-## What you get
+Keys stay in `localStorage`. Nothing is sent to our servers (there are none).
 
-- **Risk classification** -- Defensible risk tier with reasoning, not just a label
-- **Action checklist** -- Every requirement mapped to its Article, tagged by effort, with deadlines
-- **PDF reports** -- Export a clean report you can hand to legal counsel, auditors, or investors
-
-## How classification works
-
-A **deterministic rule engine** (~20 rules) handles the majority of cases entirely in your browser -- no API key needed. For ambiguous cases, an optional **LLM fallback** (BYOK -- bring your own key) provides higher-confidence classification. Gemini works directly from the browser; other providers work when running locally.
-
-Pre-processed EU AI Act regulation data is embedded in the app as structured JSON with typed accessors -- no RAG, no vector DB.
-
-## Run it yourself
+## Run locally
 
 ```bash
 git clone https://github.com/codedrichy/regulait.git
@@ -35,48 +42,16 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
-
-No environment variables required. The rule engine works out of the box. To enable LLM-assisted classification for ambiguous cases, add a free Gemini API key in Settings.
-
-## Deploy to GitHub Pages
-
-The app is a fully static Next.js export. Push to `main` and GitHub Actions deploys to Pages automatically.
-
-To set up Pages: repo Settings > Pages > Source: GitHub Actions.
-
-## BYOK (Bring Your Own Key)
-
-| Provider | Browser | Local dev |
-|----------|---------|-----------|
-| Gemini | Yes | Yes |
-| OpenAI | No (CORS) | Yes |
-| Groq | No (CORS) | Yes |
-| Anthropic | No (CORS) | Yes |
-
-Keys are stored in localStorage and never leave your browser.
+The rule engine works out of the box at `localhost:3000`. Add a free Gemini API key in Settings for LLM-assisted classification.
 
 ## Stack
 
-| Layer | Choice |
-|-------|--------|
-| Framework | Next.js 15 (static export) |
-| Styling | Tailwind CSS 4 |
-| Classification | Rule engine + optional LLM |
-| Hosting | GitHub Pages |
-
-## Tests
-
-```bash
-npm test
-```
-
-28 tests covering the knowledge base, rule engine, classifier, and report generator.
-
-## Disclaimer
-
-Regulait provides informational guidance based on the EU AI Act. This is not legal advice. Consult a qualified legal professional for compliance decisions.
+Next.js 15 (static export) -- Tailwind CSS 4 -- GitHub Pages -- 28 tests
 
 ## License
 
 MIT
+
+---
+
+Built by [CodedRichy](https://rishipraseeth.in/)
