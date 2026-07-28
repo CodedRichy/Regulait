@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
-/* Design tokens -- legal-tech palette (steel/slate, near-zero chroma neutrals,
-   single blue-steel accent). See design rationale in task-7-report.md. */
+/* Design tokens -- Linear-inspired dark-first palette with a desaturated
+   steel-blue accent (regulatory, not startup-violet). Dark is the default
+   rendering mode; light mode is an explicit override for users whose OS
+   prefers it. See design rationale in task-7-report.md (superseded by this
+   redesign) and docs/superpowers/specs/2026-07-28-regulait-design.md. */
 @theme {
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
@@ -12,6 +15,7 @@
   --color-ink: var(--regulait-ink);
   --color-ink-muted: var(--regulait-ink-muted);
   --color-border: var(--regulait-border);
+  --color-border-strong: var(--regulait-border-strong);
   --color-accent: var(--regulait-accent);
   --color-accent-strong: var(--regulait-accent-strong);
   --color-danger: var(--regulait-danger);
@@ -26,55 +30,175 @@
 }
 
 :root {
-  --regulait-canvas: oklch(0.98 0.004 235);
-  --regulait-surface: oklch(0.955 0.008 235);
-  --regulait-surface-2: oklch(0.91 0.012 235);
-  --regulait-ink: oklch(0.22 0.028 250);
-  --regulait-ink-muted: oklch(0.48 0.024 240);
-  --regulait-border: oklch(0.85 0.014 240);
-  --regulait-accent: oklch(0.46 0.1 235);
-  --regulait-accent-strong: oklch(0.36 0.11 235);
-  --regulait-danger: oklch(0.53 0.19 26);
-  --regulait-danger-bg: oklch(0.965 0.025 26);
+  color-scheme: dark;
+
+  /* Neutrals -- near-black canvas with two lighter surface steps, mirroring
+     Linear's #0A0A0B / #111113 / #1B1B1F layering. */
+  --regulait-canvas: oklch(0.09 0.004 260);
+  --regulait-surface: oklch(0.145 0.005 260);
+  --regulait-surface-2: oklch(0.205 0.007 260);
+
+  /* Ink expressed as white-with-alpha (still OKLCH syntax) so it layers
+     correctly over any surface step without a separate token per surface. */
+  --regulait-ink: oklch(1 0 0 / 92%);
+  --regulait-ink-muted: oklch(1 0 0 / 48%);
+  --regulait-border: oklch(1 0 0 / 9%);
+  --regulait-border-strong: oklch(1 0 0 / 16%);
+
+  /* Steel-blue accent -- Regulait's identity swap for Linear's violet. */
+  --regulait-accent: oklch(0.65 0.08 250);
+  --regulait-accent-strong: oklch(0.72 0.09 250);
 
   /* Risk-tier / status semantics -- unacceptable=danger(red), high=warning
      (amber), limited=caution(yellow), minimal=success(green). Each pairs
-     with a "-bg" tint for the same text-on-tint pattern already used for
-     danger. Caution is the outlier: yellow can't be darkened enough to
-     double as light-on-dark text, so it always pairs with the fixed
-     --color-ink-on-yellow rather than flipping like the others. */
-  --regulait-warning: oklch(0.56 0.16 55);
-  --regulait-warning-bg: oklch(0.965 0.03 55);
-  /* caution and caution-bg are intentionally fixed (no dark-mode override
-     below) -- they always pair with the fixed --color-ink-on-yellow text.
-     Unlike danger/warning/success, yellow can't be darkened enough in dark
-     mode to flip which end (bg vs. text) is light, so both halves of the
-     pair stay constant across themes instead. */
-  --regulait-caution: oklch(0.78 0.15 95);
-  --regulait-caution-bg: oklch(0.93 0.055 95);
-  --regulait-ink-on-yellow: oklch(0.3 0.05 90);
-  --regulait-success: oklch(0.52 0.12 150);
-  --regulait-success-bg: oklch(0.95 0.03 150);
+     with a "-bg" tint for the same text-on-tint pattern used across the
+     report. Tuned for dark backgrounds: bright, slightly desaturated
+     foreground colors over near-black tinted panels. Caution is the
+     outlier: yellow can't be darkened enough to double as light-on-dark
+     text, so it always pairs with the fixed --color-ink-on-yellow rather
+     than flipping like the others. */
+  --regulait-danger: oklch(0.68 0.19 25);
+  --regulait-danger-bg: oklch(0.24 0.045 25);
+  --regulait-warning: oklch(0.74 0.15 55);
+  --regulait-warning-bg: oklch(0.25 0.045 55);
+  --regulait-caution: oklch(0.8 0.15 95);
+  --regulait-caution-bg: oklch(0.28 0.04 95);
+  --regulait-ink-on-yellow: oklch(0.94 0.04 95);
+  --regulait-success: oklch(0.72 0.13 150);
+  --regulait-success-bg: oklch(0.24 0.04 150);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --regulait-canvas: oklch(0.15 0.014 240);
-    --regulait-surface: oklch(0.19 0.014 240);
-    --regulait-surface-2: oklch(0.23 0.016 240);
-    --regulait-ink: oklch(0.93 0.008 240);
-    --regulait-ink-muted: oklch(0.66 0.02 240);
-    --regulait-border: oklch(0.32 0.02 240);
-    --regulait-accent: oklch(0.72 0.1 225);
-    --regulait-accent-strong: oklch(0.8 0.09 225);
-    --regulait-danger: oklch(0.68 0.18 25);
-    --regulait-danger-bg: oklch(0.27 0.05 25);
+    color-scheme: light;
 
-    --regulait-warning: oklch(0.72 0.14 55);
-    --regulait-warning-bg: oklch(0.28 0.05 55);
-    --regulait-success: oklch(0.7 0.12 150);
-    --regulait-success-bg: oklch(0.26 0.045 150);
+    --regulait-canvas: oklch(0.98 0.004 235);
+    --regulait-surface: oklch(0.955 0.008 235);
+    --regulait-surface-2: oklch(0.91 0.012 235);
+    --regulait-ink: oklch(0.22 0.028 250);
+    --regulait-ink-muted: oklch(0.48 0.024 240);
+    --regulait-border: oklch(0.85 0.014 240);
+    --regulait-border-strong: oklch(0.76 0.018 240);
+
+    --regulait-accent: oklch(0.46 0.1 235);
+    --regulait-accent-strong: oklch(0.36 0.11 235);
+
+    --regulait-danger: oklch(0.53 0.19 26);
+    --regulait-danger-bg: oklch(0.965 0.025 26);
+    --regulait-warning: oklch(0.56 0.16 55);
+    --regulait-warning-bg: oklch(0.965 0.03 55);
+    --regulait-caution: oklch(0.78 0.15 95);
+    --regulait-caution-bg: oklch(0.93 0.055 95);
+    --regulait-ink-on-yellow: oklch(0.3 0.05 90);
+    --regulait-success: oklch(0.52 0.12 150);
+    --regulait-success-bg: oklch(0.95 0.03 150);
   }
+}
+
+* {
+  border-color: var(--regulait-border);
+}
+
+body {
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+a,
+button {
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    opacity 150ms ease;
+}
+
+::selection {
+  background: color-mix(in oklch, var(--regulait-accent) 35%, transparent);
+  color: var(--regulait-ink);
+}
+
+/* Glassmorphic surface -- subtle translucency + blur over the canvas,
+   used for headers, hero chrome, and value-prop cards. */
+.glass {
+  background: color-mix(in oklch, var(--regulait-surface) 72%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card {
+  background: color-mix(in oklch, var(--regulait-surface) 60%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--regulait-border);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.glass-card:hover {
+  border-color: var(--regulait-border-strong);
+}
+
+/* Focus ring -- subtle accent glow, used in place of default outlines. */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--regulait-accent) 45%, transparent);
+  border-color: var(--regulait-accent);
+}
+
+/* CSS-only gradient mesh for hero backgrounds -- no images. */
+.hero-mesh {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-mesh::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      42rem 24rem at 18% -10%,
+      color-mix(in oklch, var(--regulait-accent) 22%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      36rem 24rem at 88% 10%,
+      color-mix(in oklch, var(--regulait-accent) 14%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      50rem 30rem at 50% 120%,
+      color-mix(in oklch, var(--regulait-danger) 10%, transparent),
+      transparent 70%
+    );
+}
+
+.hero-mesh::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Glow utilities -- depth via layered light rather than box-shadow drop
+   shadows. Used for the enforcement pill and dramatic penalty panel. */
+.glow-danger {
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--regulait-danger) 40%, transparent),
+    0 0 24px color-mix(in oklch, var(--regulait-danger) 25%, transparent);
+}
+
+.glow-accent {
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--regulait-accent) 35%, transparent),
+    0 0 20px color-mix(in oklch, var(--regulait-accent) 18%, transparent);
 }
 
 @keyframes regulait-scan-beam {
@@ -89,6 +213,54 @@
   }
 }
 
+@keyframes regulait-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--regulait-danger) 45%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px color-mix(in oklch, var(--regulait-danger) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--regulait-danger) 0%, transparent);
+  }
+}
+
+@keyframes regulait-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+}
+
+.animate-pulse-ring {
+  animation: regulait-pulse-ring 2.2s ease-out infinite;
+}
+
+.animate-pulse-dot {
+  animation: regulait-pulse-dot 1.8s ease-in-out infinite;
+}
+
+/* Accordion height transition via the CSS grid-rows trick -- animates from
+   0fr to 1fr so height isn't hardcoded and content can be variable. */
+.accordion-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms ease;
+}
+
+.accordion-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.accordion-panel > div {
+  overflow: hidden;
+}
+
 @media print {
   /* Hide non-report elements -- the "Save as PDF" flow triggers the
      browser's native print dialog, so anything interactive or chrome-like
@@ -101,8 +273,18 @@
     display: none !important;
   }
 
-  /* Reset background colors for printing -- the dark canvas/surface tokens
-     would otherwise waste ink and hurt legibility on paper. */
+  /* Reset to a plain light document for printing -- the dark canvas/surface
+     tokens and glass/glow effects would otherwise waste ink and hurt
+     legibility on paper. */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    background-image: none !important;
+    text-shadow: none !important;
+  }
+
   body {
     background: white !important;
     color: black !important;

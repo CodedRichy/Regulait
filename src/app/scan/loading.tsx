@@ -1,7 +1,7 @@
 function SkeletonBlock({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`animate-pulse rounded-sm bg-surface-2 ${className}`}
+      className={`animate-pulse rounded-md bg-surface-2 ${className}`}
       aria-hidden="true"
     />
   );
@@ -17,7 +17,7 @@ export default function ScanLoading() {
       <SkeletonBlock className="mb-2 h-4 w-full" />
       <SkeletonBlock className="mb-10 h-4 w-2/3" />
 
-      <div className="border border-border bg-surface p-6 sm:p-8">
+      <div className="glass-card rounded-[10px] p-6 sm:p-8">
         <div className="space-y-6">
           <div>
             <SkeletonBlock className="mb-2 h-3 w-32" />

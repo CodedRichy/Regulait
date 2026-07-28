@@ -25,11 +25,11 @@ function SectionHeading({
   title: string;
 }) {
   return (
-    <div className="mb-5 border-b border-border pb-3">
-      <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+    <div className="mb-5 border-b border-border/60 pb-3">
+      <p className="font-mono text-xs uppercase tracking-widest text-accent">
         {eyebrow}
       </p>
-      <h2 className="mt-1 font-heading text-xl font-semibold tracking-tight text-ink sm:text-2xl">
+      <h2 className="mt-1 font-heading text-xl font-semibold tracking-[-0.02em] text-ink sm:text-2xl">
         {title}
       </h2>
     </div>
@@ -54,7 +54,7 @@ function ShareButton() {
     <button
       type="button"
       onClick={handleShare}
-      className="inline-flex items-center gap-2 rounded-sm border border-border bg-surface px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-ink-muted"
+      className="focus-ring inline-flex items-center gap-2 rounded-md border border-border bg-transparent px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-border-strong hover:bg-surface"
     >
       {copied ? "Link copied" : "Share report"}
     </button>
@@ -70,7 +70,7 @@ function PdfDownloadButton() {
     <button
       type="button"
       onClick={handlePrint}
-      className="no-print inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong"
+      className="no-print focus-ring inline-flex items-center gap-2 rounded-md border border-accent/50 bg-transparent px-4 py-2 text-sm font-medium text-accent transition-colors hover:border-accent hover:bg-accent/10"
     >
       Save as PDF
     </button>
@@ -86,10 +86,10 @@ export function ReportView({ report }: { report: ComplianceReport }) {
       {/* Header */}
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">
             EU AI Act &middot; Compliance Report
           </p>
-          <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <h1 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
             Compliance Report
           </h1>
           <p className="mt-1 font-mono text-xs text-ink-muted">
@@ -144,7 +144,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
             {report.transparency_obligations.map((obligation) => (
               <div
                 key={obligation.id}
-                className="border border-border bg-surface p-5"
+                className="glass-card rounded-[10px] p-5"
               >
                 <h3 className="font-heading text-base font-semibold tracking-tight text-ink">
                   {obligation.title}
@@ -174,11 +174,11 @@ export function ReportView({ report }: { report: ComplianceReport }) {
       {report.penalties && (
         <section className="mt-12">
           <SectionHeading eyebrow="Enforcement" title="Penalties for Non-Compliance" />
-          <div className="border-l-4 border-danger bg-danger-bg p-6 sm:p-8">
+          <div className="glow-danger relative overflow-hidden rounded-[10px] border-l-4 border-danger bg-danger-bg p-6 sm:p-8">
             <p className="text-sm font-medium text-ink">
               {report.penalties.description}
             </p>
-            <p className="mt-3 font-heading text-3xl font-semibold tracking-tight text-danger sm:text-4xl">
+            <p className="mt-3 font-heading text-4xl font-semibold tracking-[-0.03em] text-danger sm:text-5xl">
               Up to {eurFormatter.format(report.penalties.max_fine_eur)}
             </p>
             <p className="mt-1 text-sm text-ink-muted">
@@ -211,7 +211,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
                 {report.exemptions.applicable.map((exemption) => (
                   <div
                     key={exemption.name}
-                    className="border-l-4 border-success bg-success-bg p-4"
+                    className="glass-card rounded-[10px] border-l-4 border-success p-4"
                   >
                     <h3 className="font-heading text-sm font-semibold tracking-tight text-ink">
                       {exemption.name}
@@ -239,7 +239,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
                 {report.exemptions.not_applicable.map((exemption) => (
                   <div
                     key={exemption.name}
-                    className="border border-border bg-surface p-4 opacity-70"
+                    className="rounded-[10px] border border-border bg-surface/50 p-4 opacity-60"
                   >
                     <h3 className="font-heading text-sm font-semibold tracking-tight text-ink-muted line-through decoration-1">
                       {exemption.name}
@@ -260,7 +260,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
       )}
 
       {/* Legal disclaimer */}
-      <div className="mt-14 border-t border-border pt-6">
+      <div className="mt-14 border-t border-border/60 pt-6">
         <p className="text-xs leading-relaxed text-ink-muted">
           <span className="font-medium text-ink">Disclaimer.</span> This
           report is generated automatically from self-reported information

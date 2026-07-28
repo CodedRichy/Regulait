@@ -8,7 +8,7 @@ const EFFORT_CONFIG: Record<
   medium: {
     label: "Medium effort",
     bgClass: "bg-caution-bg",
-    textClass: "text-ink-on-yellow",
+    textClass: "text-caution",
   },
   high: { label: "High effort", bgClass: "bg-danger-bg", textClass: "text-danger" },
 };
@@ -17,10 +17,10 @@ export function RequirementCard({ requirement }: { requirement: Requirement }) {
   const effort = EFFORT_CONFIG[requirement.effort];
 
   return (
-    <div className="border border-border bg-surface p-5 sm:p-6">
+    <div className="glass-card rounded-[10px] p-5 sm:p-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">
             Article {requirement.number}
           </p>
           <h3 className="mt-1 font-heading text-lg font-semibold tracking-tight text-ink">

@@ -6,10 +6,9 @@ interface RiskTierConfig {
   description: string;
   pillBgClass: string;
   pillTextClass: string;
-  cardBorderClass: string;
-  cardBgClass: string;
+  borderClass: string;
+  glowClass: string;
   headingTextClass: string;
-  descriptionTextClass: string;
 }
 
 const RISK_CONFIG: Record<RiskTier, RiskTierConfig> = {
@@ -20,10 +19,9 @@ const RISK_CONFIG: Record<RiskTier, RiskTierConfig> = {
       "This system falls into a banned category (Article 5). It cannot be placed on the EU market, deployed, or put into service in any form.",
     pillBgClass: "bg-danger",
     pillTextClass: "text-canvas",
-    cardBorderClass: "border-danger",
-    cardBgClass: "bg-danger-bg",
+    borderClass: "border-danger",
+    glowClass: "glow-danger",
     headingTextClass: "text-danger",
-    descriptionTextClass: "text-ink-muted",
   },
   high: {
     pillLabel: "High Risk",
@@ -32,10 +30,9 @@ const RISK_CONFIG: Record<RiskTier, RiskTierConfig> = {
       "This system is high-risk under Annex III. It must satisfy risk management, data governance, documentation, oversight, and registration requirements before deployment.",
     pillBgClass: "bg-warning",
     pillTextClass: "text-canvas",
-    cardBorderClass: "border-warning",
-    cardBgClass: "bg-warning-bg",
+    borderClass: "border-warning",
+    glowClass: "",
     headingTextClass: "text-warning",
-    descriptionTextClass: "text-ink-muted",
   },
   limited: {
     pillLabel: "Limited Risk",
@@ -44,12 +41,9 @@ const RISK_CONFIG: Record<RiskTier, RiskTierConfig> = {
       "This system must disclose that people are interacting with AI, and label any synthetic content it generates. No conformity assessment is required.",
     pillBgClass: "bg-caution",
     pillTextClass: "text-ink-on-yellow",
-    cardBorderClass: "border-caution",
-    cardBgClass: "bg-caution-bg",
-    headingTextClass: "text-ink-on-yellow",
-    // caution-bg is fixed (light) across themes, so its body copy needs the
-    // fixed dark ink-on-yellow color too, not the theme-flipping ink-muted.
-    descriptionTextClass: "text-ink-on-yellow/75",
+    borderClass: "border-caution",
+    glowClass: "",
+    headingTextClass: "text-caution",
   },
   minimal: {
     pillLabel: "Minimal Risk",
@@ -58,10 +52,9 @@ const RISK_CONFIG: Record<RiskTier, RiskTierConfig> = {
       "This system falls outside the Act's regulated categories. Voluntary codes of conduct are encouraged, but no specific legal requirements apply.",
     pillBgClass: "bg-success",
     pillTextClass: "text-canvas",
-    cardBorderClass: "border-success",
-    cardBgClass: "bg-success-bg",
+    borderClass: "border-success",
+    glowClass: "",
     headingTextClass: "text-success",
-    descriptionTextClass: "text-ink-muted",
   },
 };
 
@@ -76,7 +69,7 @@ export function RiskBadge({
 
   return (
     <div
-      className={`border-l-4 ${config.cardBorderClass} ${config.cardBgClass} rounded-sm px-6 py-6 sm:px-8 sm:py-7`}
+      className={`glass-card ${config.glowClass} rounded-[10px] border-l-4 ${config.borderClass} px-6 py-6 sm:px-8 sm:py-7`}
     >
       <div className="flex flex-wrap items-center gap-3">
         <span
@@ -95,7 +88,7 @@ export function RiskBadge({
       >
         {config.heading}
       </h2>
-      <p className={`mt-2 max-w-xl text-sm ${config.descriptionTextClass}`}>
+      <p className="mt-2 max-w-xl text-sm text-ink-muted">
         {config.description}
       </p>
     </div>

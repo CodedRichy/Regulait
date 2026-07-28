@@ -84,7 +84,7 @@ function CheckboxGroup({
   const otherSelected = hasOther && selected.includes("other");
 
   return (
-    <fieldset className="border-t border-border pt-6">
+    <fieldset className="border-t border-border/60 pt-6">
       <legend className="mb-1 font-heading text-base font-semibold tracking-tight text-ink">
         {legend}
       </legend>
@@ -99,10 +99,10 @@ function CheckboxGroup({
           return (
             <label
               key={option.value}
-              className={`group flex cursor-pointer items-start gap-3 rounded-sm border px-3 py-2.5 transition-colors ${
+              className={`group flex cursor-pointer items-start gap-3 rounded-md border px-3 py-2.5 transition-colors ${
                 checked
-                  ? "border-accent bg-accent/5"
-                  : "border-border bg-surface hover:border-ink-muted"
+                  ? "border-accent bg-accent/10"
+                  : "border-border bg-surface hover:border-border-strong"
               }`}
             >
               <input
@@ -113,10 +113,10 @@ function CheckboxGroup({
               />
               <span
                 aria-hidden
-                className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border transition-colors ${
+                className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors ${
                   checked
                     ? "border-accent bg-accent"
-                    : "border-border bg-canvas group-hover:border-ink-muted"
+                    : "border-border-strong bg-canvas group-hover:border-ink-muted"
                 }`}
               >
                 {checked && (
@@ -159,7 +159,7 @@ function CheckboxGroup({
             onChange={(e) => onOtherTextChange(e.target.value)}
             placeholder="Please specify..."
             maxLength={120}
-            className="w-full rounded-sm border border-border bg-canvas px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+            className="focus-ring w-full rounded-md border border-border bg-canvas px-3 py-2 text-sm text-ink placeholder:text-ink-muted"
           />
         </div>
       )}
@@ -269,7 +269,7 @@ export function ScanForm() {
           onChange={(e) => setDescription(e.target.value)}
           rows={6}
           placeholder="Example: Our platform uses a machine learning model to screen incoming resumes for open engineering roles, scoring each candidate from 1-10 based on skills match before a recruiter reviews the shortlist..."
-          className="w-full resize-y rounded-sm border border-border bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+          className="focus-ring w-full resize-y rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-ink-muted"
         />
         <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-surface-2">
           <div
@@ -323,7 +323,7 @@ export function ScanForm() {
       {error && (
         <div
           role="alert"
-          className="border-l-2 border-danger bg-danger-bg px-4 py-3 text-sm text-danger"
+          className="rounded-md border-l-2 border-danger bg-danger-bg px-4 py-3 text-sm text-danger"
         >
           <p className="font-medium">Couldn&apos;t submit your scan</p>
           <p className="mt-0.5 text-danger/90">{error}</p>
@@ -331,7 +331,7 @@ export function ScanForm() {
       )}
 
       {!hasApiKey && (
-        <div className="flex items-start gap-3 border-l-2 border-border bg-surface-2 px-4 py-3 text-sm text-ink-muted">
+        <div className="glass-card flex items-start gap-3 rounded-md border-l-2 border-border px-4 py-3 text-sm text-ink-muted">
           <svg
             aria-hidden
             viewBox="0 0 20 20"
@@ -353,11 +353,11 @@ export function ScanForm() {
         </div>
       )}
 
-      <div className="border-t border-border pt-6">
+      <div className="border-t border-border/60 pt-6">
         <button
           type="submit"
           disabled={submitting}
-          className="relative w-full overflow-hidden rounded-sm bg-accent px-4 py-3 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-90"
+          className="focus-ring glow-accent relative w-full overflow-hidden rounded-md bg-accent px-4 py-3 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-90"
         >
           <span className="relative z-10">
             {submitting ? "Analyzing against the EU AI Act..." : "Run compliance scan"}

@@ -1,7 +1,7 @@
 function SkeletonBlock({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`animate-pulse rounded-sm bg-surface-2 ${className}`}
+      className={`animate-pulse rounded-md bg-surface-2 ${className}`}
       aria-hidden="true"
     />
   );

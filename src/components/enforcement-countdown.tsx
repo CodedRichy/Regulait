@@ -26,8 +26,20 @@ export function EnforcementCountdown() {
     setDaysLeft(daysUntilEnforcement());
   }, []);
 
+  const urgent = daysLeft !== null && daysLeft <= 30;
+
   return (
-    <span className="inline-flex items-center rounded-full bg-danger px-3 py-1 font-mono text-xs font-semibold uppercase tracking-widest text-canvas">
+    <span
+      className={`glow-danger inline-flex items-center gap-1.5 rounded-full bg-danger px-3 py-1 font-mono text-xs font-semibold uppercase tracking-widest text-canvas ${
+        urgent ? "animate-pulse-ring" : ""
+      }`}
+    >
+      {urgent && (
+        <span
+          aria-hidden
+          className="h-1.5 w-1.5 shrink-0 animate-pulse-dot rounded-full bg-canvas"
+        />
+      )}
       {daysLeft === null
         ? "Enforcement begins Aug 2, 2026"
         : `${daysLeft} ${daysLeft === 1 ? "day" : "days"} until enforcement`}

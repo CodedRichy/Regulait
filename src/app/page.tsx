@@ -55,11 +55,11 @@ export default function Home() {
   return (
     <main>
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-canvas/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <header className="glass sticky top-0 z-40 border-b border-border/60">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
           <Link
             href="/"
-            className="font-heading text-lg font-semibold tracking-tight text-ink"
+            className="focus-ring rounded-md font-heading text-lg font-semibold tracking-tight text-ink"
           >
             Regulait
           </Link>
@@ -86,7 +86,7 @@ export default function Home() {
             </Link>
             <Link
               href="/scan"
-              className="inline-flex items-center rounded-sm bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
+              className="focus-ring inline-flex items-center rounded-md bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
             >
               Start scan
             </Link>
@@ -95,7 +95,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
+      <section className="hero-mesh px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <EnforcementCountdown />
@@ -104,7 +104,7 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="mt-6 font-heading text-4xl font-semibold tracking-tight text-ink sm:text-5xl md:text-6xl">
+          <h1 className="mt-6 text-balance font-heading text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl md:text-6xl">
             Know your EU AI Act exposure before regulators do.
           </h1>
 
@@ -119,7 +119,7 @@ export default function Home() {
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/scan"
-              className="inline-flex items-center justify-center rounded-sm bg-accent px-8 py-3.5 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
+              className="focus-ring glow-accent inline-flex items-center justify-center rounded-md bg-accent px-8 py-3.5 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
             >
               Check your AI system -- free
             </Link>
@@ -134,37 +134,40 @@ export default function Home() {
       {/* How it works */}
       <section
         id="how-it-works"
-        className="border-t border-border bg-surface"
+        className="border-t border-border/60 bg-surface"
       >
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-14 max-w-xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+            <p className="font-mono text-xs uppercase tracking-widest text-accent">
               Process
             </p>
-            <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
               How it works
             </h2>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 sm:gap-8">
+          <div className="mx-auto max-w-2xl">
             {STEPS.map((step, index) => (
-              <div
-                key={step.number}
-                className={
-                  index === 0
-                    ? "sm:pr-8"
-                    : "border-t border-border pt-8 sm:border-l sm:border-t-0 sm:pl-8 sm:pt-0"
-                }
-              >
-                <p className="font-heading text-sm font-semibold tracking-widest text-accent">
-                  {step.number}
-                </p>
-                <h3 className="mt-3 font-heading text-xl font-semibold tracking-tight text-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                  {step.description}
-                </p>
+              <div key={step.number} className="relative flex gap-6">
+                <div className="flex flex-col items-center">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/40 bg-canvas font-heading text-sm font-semibold text-accent">
+                    {step.number}
+                  </div>
+                  {index < STEPS.length - 1 && (
+                    <div
+                      aria-hidden
+                      className="my-1 w-px flex-1 bg-gradient-to-b from-accent/40 to-transparent"
+                    />
+                  )}
+                </div>
+                <div className={index < STEPS.length - 1 ? "pb-12" : ""}>
+                  <h3 className="pt-1.5 font-heading text-xl font-semibold tracking-tight text-ink">
+                    {step.title}
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-muted">
+                    {step.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -174,10 +177,10 @@ export default function Home() {
       {/* Value props */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-14 max-w-xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">
             What you get
           </p>
-          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
             Built for the deadline, not a demo
           </h2>
         </div>
@@ -186,7 +189,7 @@ export default function Home() {
           {VALUE_PROPS.map((prop) => (
             <div
               key={prop.label}
-              className="border border-border bg-surface p-6 sm:p-7"
+              className="glass-card rounded-[10px] p-6 sm:p-7"
             >
               <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
                 {prop.label}
@@ -205,10 +208,10 @@ export default function Home() {
       {/* FAQ */}
       <section id="faq" className="mx-auto max-w-3xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-8 max-w-xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent">
             FAQ
           </p>
-          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
             Frequently asked questions
           </h2>
         </div>
@@ -217,9 +220,9 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border">
+      <footer className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <div className="border border-border bg-surface p-6 sm:p-7">
+          <div className="glass-card rounded-[10px] p-6 sm:p-7">
             <p className="text-sm leading-relaxed text-ink-muted">
               <span className="font-medium text-ink">Disclaimer.</span>{" "}
               Regulait provides informational guidance generated from

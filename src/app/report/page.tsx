@@ -48,7 +48,7 @@ function ReportPageInner() {
   if (state.status === "not_found") {
     return (
       <main className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-24">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+        <p className="font-mono text-xs uppercase tracking-widest text-danger">
           404
         </p>
         <h1 className="mt-2 font-heading text-2xl font-semibold tracking-tight text-ink">

@@ -61,12 +61,16 @@ export function ApiKeySettings() {
   return (
     <form onSubmit={handleSave} className="space-y-6">
       <div className="flex items-center gap-2">
-        <span
-          className={`h-2 w-2 shrink-0 rounded-full ${
-            configured ? "bg-success" : "bg-ink-muted"
-          }`}
-          aria-hidden
-        />
+        <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+          {configured && (
+            <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-success" />
+          )}
+          <span
+            className={`relative inline-flex h-2 w-2 rounded-full ${
+              configured ? "bg-success" : "bg-ink-muted"
+            }`}
+          />
+        </span>
         <p className="text-sm font-medium text-ink">
           {configured ? "API key configured" : "No API key configured"}
         </p>
@@ -90,10 +94,10 @@ export function ApiKeySettings() {
           {PROVIDERS.map((p) => (
             <label
               key={p}
-              className={`flex cursor-pointer items-start gap-3 rounded-sm border px-3 py-2.5 transition-colors ${
+              className={`flex cursor-pointer items-start gap-3 rounded-md border px-3 py-2.5 transition-colors ${
                 provider === p
-                  ? "border-accent bg-accent/5"
-                  : "border-border bg-surface hover:border-ink-muted"
+                  ? "border-accent bg-accent/10"
+                  : "border-border bg-surface hover:border-border-strong"
               }`}
             >
               <input
@@ -102,7 +106,7 @@ export function ApiKeySettings() {
                 value={p}
                 checked={provider === p}
                 onChange={() => handleProviderChange(p)}
-                className="mt-1"
+                className="focus-ring mt-1 accent-accent"
               />
               <span className="min-w-0">
                 <span className="block text-sm font-medium text-ink">
@@ -118,7 +122,7 @@ export function ApiKeySettings() {
       </fieldset>
 
       {!isBrowserSupported && (
-        <div className="border-l-2 border-warning bg-warning-bg px-4 py-3 text-sm text-ink">
+        <div className="rounded-md border-l-2 border-warning bg-warning-bg px-4 py-3 text-sm text-ink">
           {PROVIDER_LABELS[provider]} blocks requests made directly from a
           browser (CORS). This key will only work if you run Regulait
           locally with <code className="font-mono">npm run dev</code>; it
@@ -141,7 +145,7 @@ export function ApiKeySettings() {
           value={apiKey}
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="Paste your API key"
-          className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+          className="focus-ring w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted"
         />
       </div>
 
@@ -158,18 +162,18 @@ export function ApiKeySettings() {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           placeholder={DEFAULT_MODELS[provider]}
-          className="w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none"
+          className="focus-ring w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-muted"
         />
         <p className="mt-1 text-xs text-ink-muted">
           Default: {DEFAULT_MODELS[provider]}
         </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 border-t border-border pt-6">
+      <div className="flex flex-wrap items-center gap-3 border-t border-border/60 pt-6">
         <button
           type="submit"
           disabled={!apiKey.trim()}
-          className="inline-flex items-center rounded-sm bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
+          className="focus-ring glow-accent inline-flex items-center rounded-md bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60"
         >
           Save key
         </button>
@@ -177,7 +181,7 @@ export function ApiKeySettings() {
           <button
             type="button"
             onClick={handleClear}
-            className="inline-flex items-center rounded-sm border border-border px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-ink-muted"
+            className="focus-ring inline-flex items-center rounded-md border border-border px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-border-strong"
           >
             Clear key
           </button>

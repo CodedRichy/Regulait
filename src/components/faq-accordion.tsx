@@ -59,7 +59,7 @@ export function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="divide-y divide-border border-t border-border">
+    <div className="divide-y divide-border/60 border-t border-border/60">
       {FAQS.map((faq, index) => {
         const open = openIndex === index;
         return (
@@ -68,18 +68,20 @@ export function FaqAccordion() {
               type="button"
               onClick={() => setOpenIndex(open ? null : index)}
               aria-expanded={open}
-              className="flex w-full items-center justify-between gap-4 py-5 text-left"
+              className="focus-ring flex w-full items-center justify-between gap-4 rounded-md py-5 text-left"
             >
               <span className="font-heading text-base font-semibold tracking-tight text-ink sm:text-lg">
                 {faq.question}
               </span>
               <ChevronIcon open={open} />
             </button>
-            {open && (
-              <p className="pb-5 pr-8 text-sm leading-relaxed text-ink-muted">
-                {faq.answer}
-              </p>
-            )}
+            <div className="accordion-panel" data-open={open}>
+              <div>
+                <p className="pb-5 pr-8 text-sm leading-relaxed text-ink-muted">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
           </div>
         );
       })}
