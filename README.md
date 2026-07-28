@@ -1,5 +1,7 @@
 # Regulait
 
+![Regulait Banner](public/og-banner.png)
+
 **Free EU AI Act compliance checker.** Describe your AI system, get an instant risk classification with actionable requirements -- before enforcement begins August 2, 2026.
 
 Non-compliance fines reach EUR 35M or 7% of global annual turnover. Two minutes with Regulait tells you where you stand.
