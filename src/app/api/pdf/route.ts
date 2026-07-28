@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import { createServiceRoleClient } from "@/lib/supabase/server";
+import { hasActiveSubscription } from "@/lib/stripe";
 import { generateReportPDF } from "@/lib/pdf";
 import type { ComplianceReport } from "@/lib/report-generator";
-
-interface ScanRow {
-  id: string;
-  report: ComplianceReport;
-}
 
 // @react-pdf/renderer needs Node APIs (fontkit, streams) -- must not run on
 // the edge runtime.
@@ -24,17 +19,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createServiceRoleClient();
+    const isSubscribed = await hasActiveSubscription(userId);
 
-    const { data: subscription } = await supabase
-      .from("subscriptions")
-      .select("plan, status")
-      .eq("user_id", userId)
-      .eq("status", "active")
-      .in("plan", ["pro", "agency"])
-      .maybeSingle();
-
-    if (!subscription) {
+    if (!isSubscribed) {
       return NextResponse.json(
         { error: "PDF export is a Pro feature. Upgrade to download reports." },
         { status: 403 }
@@ -42,32 +29,14 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json().catch(() => null);
-    const reportId = body?.report_id;
+    const report = body?.report as ComplianceReport | undefined;
 
-    if (typeof reportId !== "string" || reportId.length === 0) {
+    if (!report || typeof report.id !== "string" || report.id.length === 0) {
       return NextResponse.json(
-        { error: "report_id is required." },
+        { error: "report is required." },
         { status: 400 }
       );
     }
-
-    // Never trust a client-submitted report body -- that would let anyone
-    // fabricate a favorable classification and get an officially-branded
-    // PDF for it. Always regenerate from the DB-stored report instead.
-    const { data: scan, error: scanError } = await supabase
-      .from("scans")
-      .select("id, report")
-      .eq("id", reportId)
-      .maybeSingle();
-
-    if (scanError || !scan) {
-      return NextResponse.json(
-        { error: "Report not found." },
-        { status: 404 }
-      );
-    }
-
-    const { report } = scan as ScanRow;
 
     const blob = await generateReportPDF(report);
     const buffer = Buffer.from(await blob.arrayBuffer());
@@ -76,7 +45,7 @@ export async function POST(request: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="regulait-report-${scan.id}.pdf"`,
+        "Content-Disposition": `attachment; filename="regulait-report-${report.id}.pdf"`,
       },
     });
   } catch (error) {

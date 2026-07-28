@@ -33,6 +33,34 @@ export const stripe = new Proxy({} as Stripe, {
   },
 });
 
+// Escapes a value for embedding in a Stripe Search Query string. Stripe's
+// query language uses single-quoted string literals; backslash and single
+// quote are the only characters that need escaping there.
+function escapeSearchValue(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+/**
+ * Looks up whether the given Clerk userId has an active Stripe subscription.
+ * The Stripe customer is found via the `userId` metadata set at checkout
+ * time (see createCheckoutSession) -- the List Customers API doesn't support
+ * filtering by metadata, so this uses the Search API instead.
+ */
+export async function hasActiveSubscription(userId: string): Promise<boolean> {
+  const customers = await stripe.customers.search({
+    query: `metadata['userId']:'${escapeSearchValue(userId)}'`,
+    limit: 1,
+  });
+  if (customers.data.length === 0) return false;
+
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customers.data[0].id,
+    status: "active",
+    limit: 1,
+  });
+  return subscriptions.data.length > 0;
+}
+
 export async function createCheckoutSession(
   priceId: string,
   userId: string,

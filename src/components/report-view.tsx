@@ -98,7 +98,7 @@ function PdfDownloadButton({ report }: { report: ComplianceReport }) {
       const response = await fetch("/api/pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ report_id: report.id }),
+        body: JSON.stringify({ report }),
       });
 
       if (!response.ok) {

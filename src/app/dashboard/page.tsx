@@ -1,9 +1,12 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs/server";
-import { UserButton } from "@clerk/nextjs";
-import { createServiceRoleClient } from "@/lib/supabase/server";
+import { useUser, UserButton } from "@clerk/nextjs";
+import type { ComplianceReport } from "@/lib/report-generator";
 import type { RiskTier } from "@/lib/knowledge-base";
+
+const REPORT_STORAGE_PREFIX = "regulait_report_";
 
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -18,42 +21,59 @@ const TIER_BADGE: Record<RiskTier, { label: string; bg: string; text: string }> 
   minimal: { label: "Minimal", bg: "bg-success", text: "text-canvas" },
 };
 
-interface ScanRow {
-  id: string;
-  product_desc: string;
-  risk_tier: RiskTier;
-  created_at: string;
-}
-
 function truncate(text: string, max = 140) {
   const trimmed = text.trim();
   return trimmed.length > max ? `${trimmed.slice(0, max).trimEnd()}...` : trimmed;
 }
 
-export default async function DashboardPage() {
-  // Belt-and-suspenders: middleware already gates /dashboard, but a direct
-  // render (e.g. during static analysis) shouldn't assume a signed-in user.
-  const user = await currentUser();
+function loadLocalReports(): ComplianceReport[] {
+  if (typeof window === "undefined") return [];
 
-  if (!user) {
-    redirect("/sign-in");
+  const reports: ComplianceReport[] = [];
+  try {
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (!key || !key.startsWith(REPORT_STORAGE_PREFIX)) continue;
+      const raw = window.localStorage.getItem(key);
+      if (!raw) continue;
+      try {
+        reports.push(JSON.parse(raw) as ComplianceReport);
+      } catch {
+        // Skip malformed entries rather than failing the whole list.
+      }
+    }
+  } catch {
+    // localStorage may be unavailable (private browsing, disabled storage).
+    return [];
   }
 
-  const supabase = createServiceRoleClient();
-  const { data: scans, error } = await supabase
-    .from("scans")
-    .select("id, product_desc, risk_tier, created_at")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
+  return reports.sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+}
 
-  const rows = (scans ?? []) as ScanRow[];
+export default function DashboardPage() {
+  const { isLoaded, user } = useUser();
+  const [reports, setReports] = useState<ComplianceReport[] | null>(null);
+
+  useEffect(() => {
+    setReports(loadLocalReports());
+  }, []);
+
+  if (!isLoaded || reports === null) {
+    return (
+      <main className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
+        <p className="font-mono text-sm text-ink-muted">Loading...</p>
+      </main>
+    );
+  }
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 sm:py-16">
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-            {user.primaryEmailAddress?.emailAddress ?? "Signed in"}
+            {user?.primaryEmailAddress?.emailAddress ?? "Signed in"}
           </p>
           <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             Your scans
@@ -70,16 +90,12 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      {error && (
-        <p
-          role="alert"
-          className="border-l-2 border-danger bg-danger-bg px-4 py-3 text-sm text-danger"
-        >
-          Couldn&apos;t load your scans. Please try again.
-        </p>
-      )}
+      <p className="mb-6 text-xs leading-relaxed text-ink-muted">
+        Your scan history is stored locally in your browser. It won&apos;t be
+        available on a different device or after clearing your browser data.
+      </p>
 
-      {!error && rows.length === 0 && (
+      {reports.length === 0 && (
         <div className="border border-border bg-surface p-8 text-center">
           <p className="text-sm text-ink-muted">
             You haven&apos;t run a scan yet.
@@ -94,14 +110,14 @@ export default async function DashboardPage() {
       )}
 
       <div className="space-y-3">
-        {rows.map((scan) => {
-          const badge = TIER_BADGE[scan.risk_tier];
-          const created = new Date(scan.created_at);
+        {reports.map((report) => {
+          const badge = TIER_BADGE[report.risk_tier];
+          const created = new Date(report.created_at);
           const hasValidDate = !Number.isNaN(created.getTime());
           return (
             <Link
-              key={scan.id}
-              href={`/report/${scan.id}`}
+              key={report.id}
+              href={`/report/${report.id}`}
               className="flex items-start justify-between gap-4 border border-border bg-surface p-4 transition-colors hover:border-ink-muted sm:p-5"
             >
               <div className="min-w-0">
@@ -111,7 +127,7 @@ export default async function DashboardPage() {
                   {badge.label}
                 </span>
                 <p className="mt-2 text-sm leading-snug text-ink">
-                  {truncate(scan.product_desc)}
+                  {truncate(report.reasoning)}
                 </p>
               </div>
               {hasValidDate && (
