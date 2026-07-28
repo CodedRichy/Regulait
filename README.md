@@ -1,89 +1,67 @@
 # Regulait
 
-Free EU AI Act compliance checker. Describe your AI system, get an instant risk classification with actionable requirements.
+**Free EU AI Act compliance checker.** Describe your AI system, get an instant risk classification with actionable requirements -- before enforcement begins August 2, 2026.
 
-EU AI Act enforcement begins **August 2, 2026**. Non-compliance fines reach EUR 35M or 7% of global annual turnover.
+Non-compliance fines reach EUR 35M or 7% of global annual turnover. Two minutes with Regulait tells you where you stand.
 
-## What it does
+## How it works
 
-1. **Describe** your AI system (what it does, data types, users, geography)
-2. **Classify** against Article 5 prohibitions and Annex III high-risk categories
-3. **Act** on a prioritized checklist of applicable requirements with effort estimates and deadlines
+1. **Describe** -- What your AI system does, who uses it, what data it touches
+2. **Classify** -- Checked against Article 5 prohibitions and Annex III high-risk categories
+3. **Act** -- Prioritized checklist of applicable requirements with effort estimates and deadlines
 
-Risk tiers: Unacceptable / High / Limited / Minimal --- each with specific obligations, penalties, and exemptions.
+Risk tiers: **Unacceptable** / **High** / **Limited** / **Minimal** -- each with specific obligations, penalties, and exemptions.
+
+## What you get
+
+- **Risk classification** -- Defensible risk tier with reasoning, not just a label
+- **Action checklist** -- Every requirement mapped to its Article, tagged by effort, with deadlines
+- **PDF reports** -- Export a clean report you can hand to legal counsel, auditors, or investors
 
 ## How classification works
 
-- **Deterministic rule engine** runs first (~20 rules mapping inputs to risk tiers)
-- **LLM fallback** handles ambiguous cases (provider-agnostic: Groq, OpenAI, Anthropic, Gemini)
-- **Pre-processed regulation JSON** embedded in repo --- not RAG, not a vector DB, just structured data with typed accessors
+A **deterministic rule engine** (~20 rules) handles the majority of cases entirely in your browser -- no API key needed. For ambiguous cases, an optional **LLM fallback** (BYOK -- bring your own key) provides higher-confidence classification. Gemini works directly from the browser; other providers work when running locally.
 
-## Stack
+Pre-processed EU AI Act regulation data is embedded in the app as structured JSON with typed accessors -- no RAG, no vector DB.
 
-| Layer | Choice |
-|-------|--------|
-| Framework | Next.js 15 (App Router), TypeScript |
-| Styling | Tailwind CSS 4 |
-| Auth | Clerk |
-| AI | Provider-agnostic LLM client (env-configured) |
-| PDF | @react-pdf/renderer (server-side) |
-| Hosting | Vercel |
-
-## Setup
+## Run it yourself
 
 ```bash
 git clone https://github.com/codedrichy/regulait.git
 cd regulait
 npm install
-cp .env.local.example .env.local
-```
-
-Fill in `.env.local`:
-
-```env
-# Clerk (https://dashboard.clerk.com)
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-
-# LLM (any supported provider)
-LLM_PROVIDER=groq          # groq | openai | anthropic | gemini
-LLM_API_KEY=gsk_...
-LLM_MODEL=llama-3.3-70b-versatile
-```
-
-Run:
-
-```bash
 npm run dev
 ```
 
 Open http://localhost:3000
 
-## Rate limits
+No environment variables required. The rule engine works out of the box. To enable LLM-assisted classification for ambiguous cases, add a free Gemini API key in Settings.
 
-| Endpoint | Anonymous | Authenticated |
-|----------|-----------|---------------|
-| `/api/scan` | 5/hr per IP | 20/hr per user |
-| `/api/pdf` | --- | 10/hr per user |
+## Deploy to GitHub Pages
 
-In-memory sliding window. Resets on server restart.
+The app is a fully static Next.js export. Push to `main` and GitHub Actions deploys to Pages automatically.
 
-## Project structure
+To set up Pages: repo Settings > Pages > Source: GitHub Actions.
 
-```
-src/
-  app/              Next.js pages and API routes
-  components/       React components (scan form, report view, risk badge)
-  data/             Pre-processed EU AI Act JSON
-  lib/
-    rules.ts        Deterministic rule engine (~20 rules)
-    llm.ts          Provider-agnostic LLM client
-    classifier.ts   Orchestrates rules + LLM
-    report-generator.ts  Builds compliance report from classification
-    knowledge-base.ts    Types + accessors for EU AI Act data
-    rate-limit.ts   In-memory sliding window rate limiter
-    pdf.tsx          Server-side PDF generation
-```
+## BYOK (Bring Your Own Key)
+
+| Provider | Browser | Local dev |
+|----------|---------|-----------|
+| Gemini | Yes | Yes |
+| OpenAI | No (CORS) | Yes |
+| Groq | No (CORS) | Yes |
+| Anthropic | No (CORS) | Yes |
+
+Keys are stored in localStorage and never leave your browser.
+
+## Stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 15 (static export) |
+| Styling | Tailwind CSS 4 |
+| Classification | Rule engine + optional LLM |
+| Hosting | GitHub Pages |
 
 ## Tests
 
@@ -91,15 +69,7 @@ src/
 npm test
 ```
 
-30 tests covering knowledge base, rule engine, LLM client, classifier, and report generator.
-
-## Deploy
-
-```bash
-vercel --prod
-```
-
-Set environment variables in Vercel dashboard. Clerk and LLM keys are required.
+28 tests covering the knowledge base, rule engine, classifier, and report generator.
 
 ## Disclaimer
 
