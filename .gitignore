@@ -38,6 +38,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# build tooling artifacts
+.superpowers/
+.impeccable/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
