@@ -1,5 +1,4 @@
-import { randomUUID } from "crypto";
-import type { ClassificationResult } from "@/lib/classifier";
+import type { ClassificationResult } from "@/lib/client-classifier";
 import {
   type RiskTier,
   type Requirement,
@@ -26,6 +25,17 @@ export interface ComplianceReport {
   };
   transparency_obligations: TransparencyObligation[];
   created_at: string;
+}
+
+/** Generates a report id using the Web Crypto API, which is available in
+ * both browsers and modern Node -- avoids importing Node's "crypto" module,
+ * which isn't safe to bundle into client code. */
+function generateId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  // Fallback for environments without crypto.randomUUID (very old browsers).
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
 export function generateReport(
@@ -56,7 +66,7 @@ export function generateReport(
       : [];
 
   return {
-    id: randomUUID(),
+    id: generateId(),
     risk_tier: classification.risk_tier,
     confidence: classification.confidence,
     reasoning: classification.reasoning,

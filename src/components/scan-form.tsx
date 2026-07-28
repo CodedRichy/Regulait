@@ -1,8 +1,12 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import type { StructuredInput } from "@/lib/rules";
+import { classify } from "@/lib/client-classifier";
+import { generateReport } from "@/lib/report-generator";
+import { getBYOKConfig } from "@/lib/client-llm";
 
 const MIN_DESCRIPTION_LENGTH = 50;
 const REPORT_STORAGE_PREFIX = "regulait_report_";
@@ -176,6 +180,11 @@ export function ScanForm() {
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasApiKey, setHasApiKey] = useState(false);
+
+  useEffect(() => {
+    setHasApiKey(Boolean(getBYOKConfig()?.apiKey));
+  }, []);
 
   const descriptionLength = description.trim().length;
   const descriptionValid = descriptionLength >= MIN_DESCRIPTION_LENGTH;
@@ -206,36 +215,21 @@ export function ScanForm() {
     };
 
     try {
-      const response = await fetch("/api/scan", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          product_description: trimmedDescription,
-          structured_input,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          typeof data?.error === "string"
-            ? data.error
-            : "Classification failed. Please try again."
-        );
-      }
+      const classification = await classify(trimmedDescription, structured_input);
+      const report = generateReport(classification);
 
       try {
         window.localStorage.setItem(
-          `${REPORT_STORAGE_PREFIX}${data.report_id}`,
-          JSON.stringify(data.report)
+          `${REPORT_STORAGE_PREFIX}${report.id}`,
+          JSON.stringify(report)
         );
       } catch {
         // localStorage may be unavailable (private browsing, quota) -- the
-        // report page can still re-fetch by id, so this is non-fatal.
+        // report page falls back to a "not found" state, so this is
+        // non-fatal to the classification itself.
       }
 
-      router.push(`/report/${data.report_id}`);
+      router.push(`/report?id=${report.id}`);
     } catch (err) {
       setError(
         err instanceof Error
@@ -333,6 +327,29 @@ export function ScanForm() {
         >
           <p className="font-medium">Couldn&apos;t submit your scan</p>
           <p className="mt-0.5 text-danger/90">{error}</p>
+        </div>
+      )}
+
+      {!hasApiKey && (
+        <div className="flex items-start gap-3 border-l-2 border-border bg-surface-2 px-4 py-3 text-sm text-ink-muted">
+          <svg
+            aria-hidden
+            viewBox="0 0 20 20"
+            className="mt-0.5 h-4 w-4 shrink-0"
+            fill="none"
+          >
+            <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.3" />
+            <path d="M10 9v4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+            <circle cx="10" cy="6.5" r="0.9" fill="currentColor" />
+          </svg>
+          <p>
+            No LLM API key configured. The rule engine handles most cases on
+            its own; for ambiguous ones,{" "}
+            <Link href="/settings" className="font-medium text-accent hover:text-accent-strong hover:underline">
+              add a free Gemini key in Settings
+            </Link>{" "}
+            for a more accurate result.
+          </p>
         </div>
       )}
 

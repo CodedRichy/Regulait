@@ -88,3 +88,23 @@
     transform: translateX(120%);
   }
 }
+
+@media print {
+  /* Hide non-report elements -- the "Save as PDF" flow triggers the
+     browser's native print dialog, so anything interactive or chrome-like
+     should disappear from the printed/exported output. */
+  header,
+  nav,
+  footer,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset background colors for printing -- the dark canvas/surface tokens
+     would otherwise waste ink and hurt legibility on paper. */
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}

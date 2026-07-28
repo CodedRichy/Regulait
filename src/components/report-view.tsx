@@ -61,73 +61,19 @@ function ShareButton() {
   );
 }
 
-function PdfDownloadButton({ report }: { report: ComplianceReport }) {
-  const [downloading, setDownloading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [needsSignIn, setNeedsSignIn] = useState(false);
-
-  async function handleDownload() {
-    setDownloading(true);
-    setErrorMsg(null);
-    setNeedsSignIn(false);
-    try {
-      const response = await fetch("/api/pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ report }),
-      });
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          setNeedsSignIn(true);
-          throw new Error("Sign in to download your PDF report.");
-        }
-        const data = await response.json().catch(() => null);
-        throw new Error(data?.error ?? "PDF generation failed.");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `regulait-report-${report.id}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      setErrorMsg(
-        err instanceof Error ? err.message : "PDF generation failed."
-      );
-    } finally {
-      setDownloading(false);
-    }
+function PdfDownloadButton() {
+  function handlePrint() {
+    window.print();
   }
 
   return (
-    <div className="inline-flex flex-col items-end gap-1">
-      <button
-        type="button"
-        onClick={handleDownload}
-        disabled={downloading}
-        className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {downloading ? "Generating PDF..." : "Download PDF"}
-      </button>
-      {errorMsg && (
-        <p className="max-w-xs text-right text-xs text-danger">
-          {errorMsg}
-          {needsSignIn && (
-            <>
-              {" "}
-              <a href="/dashboard" className="underline">
-                Sign in
-              </a>
-            </>
-          )}
-        </p>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={handlePrint}
+      className="no-print inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong"
+    >
+      Save as PDF
+    </button>
   );
 }
 
@@ -154,7 +100,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
         </div>
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           <ShareButton />
-          <PdfDownloadButton report={report} />
+          <PdfDownloadButton />
         </div>
       </div>
 

@@ -5,18 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve out",
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@clerk/nextjs": "6.36.4",
-    "@react-pdf/renderer": "^4.5.1",
     "next": "15.5.22",
     "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "resend": "^6.18.0"
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

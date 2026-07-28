@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import type { ComplianceReport } from "@/lib/report-generator";
 import { ReportView } from "@/components/report-view";
 
@@ -12,9 +12,9 @@ type LoadState =
   | { status: "not_found" }
   | { status: "found"; report: ComplianceReport };
 
-export default function ReportPage() {
-  const params = useParams<{ id: string }>();
-  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+function ReportPageInner() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -71,4 +71,18 @@ export default function ReportPage() {
   }
 
   return <ReportView report={state.report} />;
+}
+
+export default function ReportPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-24">
+          <p className="font-mono text-sm text-ink-muted">Loading report...</p>
+        </main>
+      }
+    >
+      <ReportPageInner />
+    </Suspense>
+  );
 }

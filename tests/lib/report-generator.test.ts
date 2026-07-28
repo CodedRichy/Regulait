@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateReport } from "@/lib/report-generator";
-import type { ClassificationResult } from "@/lib/classifier";
+import type { ClassificationResult } from "@/lib/client-classifier";
 
 describe("report-generator", () => {
   it("generates report for high-risk classification", () => {
