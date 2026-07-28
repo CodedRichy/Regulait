@@ -3,6 +3,11 @@ import { createServerClient } from "@/lib/supabase/server";
 import { generateReportPDF } from "@/lib/pdf";
 import type { ComplianceReport } from "@/lib/report-generator";
 
+interface ScanRow {
+  id: string;
+  report: ComplianceReport;
+}
+
 // @react-pdf/renderer needs Node APIs (fontkit, streams) -- must not run on
 // the edge runtime.
 export const runtime = "nodejs";
@@ -37,14 +42,32 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json().catch(() => null);
-    const report = body?.report as ComplianceReport | undefined;
+    const reportId = body?.report_id;
 
-    if (!report || typeof report.id !== "string") {
+    if (typeof reportId !== "string" || reportId.length === 0) {
       return NextResponse.json(
-        { error: "Report data is required." },
+        { error: "report_id is required." },
         { status: 400 }
       );
     }
+
+    // Never trust a client-submitted report body -- that would let anyone
+    // fabricate a favorable classification and get an officially-branded
+    // PDF for it. Always regenerate from the DB-stored report instead.
+    const { data: scan, error: scanError } = await supabase
+      .from("scans")
+      .select("id, report")
+      .eq("id", reportId)
+      .maybeSingle();
+
+    if (scanError || !scan) {
+      return NextResponse.json(
+        { error: "Report not found." },
+        { status: 404 }
+      );
+    }
+
+    const { report } = scan as ScanRow;
 
     const blob = await generateReportPDF(report);
     const buffer = Buffer.from(await blob.arrayBuffer());
@@ -53,7 +76,7 @@ export async function POST(request: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="regulait-report-${report.id}.pdf"`,
+        "Content-Disposition": `attachment; filename="regulait-report-${scan.id}.pdf"`,
       },
     });
   } catch (error) {
