@@ -1,4 +1,5 @@
 import { ScanForm } from "@/components/scan-form";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata = {
   title: "Scan Your AI System - Regulait",
@@ -7,7 +8,9 @@ export const metadata = {
 
 export default function ScanPage() {
   return (
-    <main className="hero-mesh mx-auto max-w-2xl px-4 py-16 sm:py-20">
+    <>
+      <SiteHeader />
+      <main className="mx-auto max-w-2xl px-4 py-16 sm:py-20">
       <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
         EU AI Act &middot; Compliance Scan
       </p>
@@ -22,6 +25,7 @@ export default function ScanPage() {
       <div className="glass-card rounded-[10px] p-6 sm:p-8">
         <ScanForm />
       </div>
-    </main>
+      </main>
+    </>
   );
 }

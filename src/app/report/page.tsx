@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { ComplianceReport } from "@/lib/report-generator";
 import { ReportView } from "@/components/report-view";
+import { SiteHeader } from "@/components/site-header";
 
 const REPORT_STORAGE_PREFIX = "regulait_report_";
 
@@ -75,14 +76,21 @@ function ReportPageInner() {
 
 export default function ReportPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-24">
-          <p className="font-mono text-sm text-ink-muted">Loading report...</p>
-        </main>
-      }
-    >
-      <ReportPageInner />
-    </Suspense>
+    <>
+      <SiteHeader />
+      <Suspense
+        fallback={
+          <main className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-24">
+            <div className="mx-auto max-w-md space-y-4">
+              <div className="mx-auto h-3 w-32 animate-pulse rounded-full bg-surface-2" />
+              <div className="h-8 w-full animate-pulse rounded-md bg-surface-2" />
+              <div className="h-4 w-48 animate-pulse rounded-md bg-surface-2" />
+            </div>
+          </main>
+        }
+      >
+        <ReportPageInner />
+      </Suspense>
+    </>
   );
 }

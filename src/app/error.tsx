@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
 
 export default function GlobalError({
   error,
@@ -17,7 +18,9 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-4 py-16 text-center sm:py-24">
+    <>
+      <SiteHeader />
+      <main className="mx-auto flex max-w-3xl flex-col items-center justify-center px-4 py-24 text-center sm:py-32">
       <p className="font-mono text-xs uppercase tracking-widest text-danger">
         Something went wrong
       </p>
@@ -48,6 +51,7 @@ export default function GlobalError({
           Back to home
         </Link>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { SiteHeader } from "@/components/site-header";
 
 export default function NotFound() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-center justify-center px-4 py-16 text-center sm:py-24">
+    <>
+      <SiteHeader />
+      <main className="mx-auto flex max-w-3xl flex-col items-center justify-center px-4 py-24 text-center sm:py-32">
       <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
         404 &middot; Not Found
       </p>
@@ -28,6 +31,7 @@ export default function NotFound() {
           Run a new scan
         </Link>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

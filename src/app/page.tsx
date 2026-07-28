@@ -175,33 +175,35 @@ export default function Home() {
       </section>
 
       {/* Value props */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-        <div className="mb-14 max-w-xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent">
-            What you get
-          </p>
-          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
-            Built for the deadline, not a demo
-          </h2>
-        </div>
+      <section className="px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-14 max-w-xl">
+            <p className="font-mono text-xs uppercase tracking-widest text-accent">
+              What you get
+            </p>
+            <h2 className="mt-1 font-heading text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-3xl">
+              Built for the deadline, not a demo
+            </h2>
+          </div>
 
-        <div className="grid gap-6 sm:grid-cols-3">
-          {VALUE_PROPS.map((prop) => (
-            <div
-              key={prop.label}
-              className="glass-card rounded-[10px] p-6 sm:p-7"
-            >
-              <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-                {prop.label}
-              </p>
-              <h3 className="mt-3 font-heading text-lg font-semibold tracking-tight text-ink">
-                {prop.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                {prop.description}
-              </p>
-            </div>
-          ))}
+          <div className="grid gap-6 sm:grid-cols-3">
+            {VALUE_PROPS.map((prop) => (
+              <div
+                key={prop.label}
+                className="glass-card rounded-[10px] p-6 sm:p-7"
+              >
+                <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+                  {prop.label}
+                </p>
+                <h3 className="mt-3 font-heading text-lg font-semibold tracking-tight text-ink">
+                  {prop.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  {prop.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -239,9 +241,20 @@ export default function Home() {
             <p className="font-heading text-sm font-semibold tracking-tight text-ink">
               Regulait
             </p>
-            <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-              &copy; 2026 Regulait &middot; Not legal advice
-            </p>
+            <div className="flex items-center gap-4">
+              <a
+                href="https://rishipraseeth.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs text-ink-muted transition-colors hover:text-accent"
+              >
+                Built by CodedRichy
+              </a>
+              <span className="text-border-strong">&middot;</span>
+              <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
+                &copy; 2026 &middot; Not legal advice
+              </p>
+            </div>
           </div>
         </div>
       </footer>

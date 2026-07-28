@@ -1,4 +1,5 @@
 import { ApiKeySettings } from "@/components/api-key-settings";
+import { SiteHeader } from "@/components/site-header";
 
 export const metadata = {
   title: "Settings - Regulait",
@@ -7,7 +8,9 @@ export const metadata = {
 
 export default function SettingsPage() {
   return (
-    <main className="hero-mesh mx-auto max-w-2xl px-4 py-16 sm:py-20">
+    <>
+      <SiteHeader />
+      <main className="mx-auto max-w-2xl px-4 py-16 sm:py-20">
       <p className="mb-3 font-mono text-xs uppercase tracking-widest text-accent">
         Regulait &middot; Settings
       </p>
@@ -23,6 +26,7 @@ export default function SettingsPage() {
       <div className="glass-card rounded-[10px] p-6 sm:p-8">
         <ApiKeySettings />
       </div>
-    </main>
+      </main>
+    </>
   );
 }
