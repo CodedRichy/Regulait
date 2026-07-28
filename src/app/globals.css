@@ -16,6 +16,13 @@
   --color-accent-strong: var(--regulait-accent-strong);
   --color-danger: var(--regulait-danger);
   --color-danger-bg: var(--regulait-danger-bg);
+  --color-warning: var(--regulait-warning);
+  --color-warning-bg: var(--regulait-warning-bg);
+  --color-caution: var(--regulait-caution);
+  --color-caution-bg: var(--regulait-caution-bg);
+  --color-ink-on-yellow: var(--regulait-ink-on-yellow);
+  --color-success: var(--regulait-success);
+  --color-success-bg: var(--regulait-success-bg);
 }
 
 :root {
@@ -29,6 +36,25 @@
   --regulait-accent-strong: oklch(0.36 0.11 235);
   --regulait-danger: oklch(0.53 0.19 26);
   --regulait-danger-bg: oklch(0.965 0.025 26);
+
+  /* Risk-tier / status semantics -- unacceptable=danger(red), high=warning
+     (amber), limited=caution(yellow), minimal=success(green). Each pairs
+     with a "-bg" tint for the same text-on-tint pattern already used for
+     danger. Caution is the outlier: yellow can't be darkened enough to
+     double as light-on-dark text, so it always pairs with the fixed
+     --color-ink-on-yellow rather than flipping like the others. */
+  --regulait-warning: oklch(0.56 0.16 55);
+  --regulait-warning-bg: oklch(0.965 0.03 55);
+  /* caution and caution-bg are intentionally fixed (no dark-mode override
+     below) -- they always pair with the fixed --color-ink-on-yellow text.
+     Unlike danger/warning/success, yellow can't be darkened enough in dark
+     mode to flip which end (bg vs. text) is light, so both halves of the
+     pair stay constant across themes instead. */
+  --regulait-caution: oklch(0.78 0.15 95);
+  --regulait-caution-bg: oklch(0.93 0.055 95);
+  --regulait-ink-on-yellow: oklch(0.3 0.05 90);
+  --regulait-success: oklch(0.52 0.12 150);
+  --regulait-success-bg: oklch(0.95 0.03 150);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,6 +69,11 @@
     --regulait-accent-strong: oklch(0.8 0.09 225);
     --regulait-danger: oklch(0.68 0.18 25);
     --regulait-danger-bg: oklch(0.27 0.05 25);
+
+    --regulait-warning: oklch(0.72 0.14 55);
+    --regulait-warning-bg: oklch(0.28 0.05 55);
+    --regulait-success: oklch(0.7 0.12 150);
+    --regulait-success-bg: oklch(0.26 0.045 150);
   }
 }
 
