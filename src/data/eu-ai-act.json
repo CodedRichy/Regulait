@@ -1,0 +1,335 @@
+{
+  "risk_categories": {
+    "unacceptable": {
+      "description": "AI practices that pose an unacceptable risk to people's safety, livelihoods, and rights. These are banned outright.",
+      "articles": [5],
+      "criteria": [
+        "Social scoring by public authorities",
+        "Real-time remote biometric identification in public spaces for law enforcement (with narrow exceptions)",
+        "Subliminal manipulation causing harm",
+        "Exploitation of vulnerabilities of specific groups (age, disability)",
+        "Untargeted scraping of facial images from internet/CCTV for facial recognition databases",
+        "Emotion recognition in workplace and education (with exceptions)",
+        "Biometric categorisation inferring sensitive attributes (race, political opinions, religion, sexual orientation)",
+        "Individual predictive policing based solely on profiling"
+      ]
+    },
+    "high": {
+      "description": "AI systems that pose significant risks to health, safety, or fundamental rights. Subject to strict requirements before being placed on the EU market.",
+      "articles": [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 26, 27, 49],
+      "annex_iii_categories": [
+        {
+          "id": 1,
+          "name": "Biometric identification and categorisation",
+          "examples": [
+            "Remote biometric identification (not real-time)",
+            "Biometric categorisation by sensitive or protected attributes"
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Management and operation of critical infrastructure",
+          "examples": [
+            "AI as safety components in road traffic",
+            "AI in water, gas, heating, electricity supply management"
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Education and vocational training",
+          "examples": [
+            "Determining access to educational institutions",
+            "Evaluating learning outcomes",
+            "Assessing appropriate level of education",
+            "Monitoring and detecting prohibited behaviour during exams"
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Employment, workers management, and access to self-employment",
+          "examples": [
+            "Screening and filtering job applications",
+            "Evaluating candidates in interviews and tests",
+            "Making decisions on promotion, termination, task allocation",
+            "Monitoring and evaluating worker performance and behaviour"
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Access to essential private and public services",
+          "examples": [
+            "Evaluating creditworthiness (credit scoring)",
+            "Risk assessment and pricing in life/health insurance",
+            "Evaluating eligibility for public benefits and services",
+            "Emergency services dispatch prioritisation"
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Law enforcement",
+          "examples": [
+            "Assessing risk of criminal offending or reoffending",
+            "Polygraphs and similar tools",
+            "Evaluating reliability of evidence",
+            "Profiling individuals during criminal investigations"
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Migration, asylum, and border control",
+          "examples": [
+            "Assessing risk posed by persons entering EU",
+            "Examining applications for asylum, visa, and residence permits",
+            "Detecting, recognising, or identifying persons in border control"
+          ]
+        },
+        {
+          "id": 8,
+          "name": "Administration of justice and democratic processes",
+          "examples": [
+            "Assisting judicial authority in researching and interpreting facts and law",
+            "AI used to influence outcome of elections or voting behaviour"
+          ]
+        }
+      ]
+    },
+    "limited": {
+      "description": "AI systems with specific transparency risks. Users must be informed they are interacting with AI.",
+      "articles": [50, 52],
+      "obligations": [
+        {
+          "id": "transparency_notice",
+          "title": "AI Interaction Disclosure",
+          "description": "Users must be informed they are interacting with an AI system, unless obvious from context.",
+          "applies_to": ["chatbots", "conversational AI", "virtual assistants"]
+        },
+        {
+          "id": "deepfake_label",
+          "title": "Synthetic Content Labelling",
+          "description": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled as artificially generated or manipulated.",
+          "applies_to": ["image generation", "video generation", "audio generation", "deepfakes"]
+        },
+        {
+          "id": "emotion_disclosure",
+          "title": "Emotion Recognition Disclosure",
+          "description": "Persons exposed to emotion recognition or biometric categorisation systems must be informed of the operation of the system.",
+          "applies_to": ["emotion recognition", "sentiment analysis from biometrics"]
+        },
+        {
+          "id": "generated_text_label",
+          "title": "AI-Generated Text Disclosure",
+          "description": "AI-generated text published to inform the public on matters of public interest must be labelled as AI-generated.",
+          "applies_to": ["news generation", "content generation for public information"]
+        }
+      ]
+    },
+    "minimal": {
+      "description": "AI systems with minimal or no risk. No specific requirements under the EU AI Act. This includes most AI applications such as spam filters, AI in video games, and inventory management systems.",
+      "articles": [],
+      "obligations": []
+    }
+  },
+  "requirements": {
+    "article_9": {
+      "number": 9,
+      "title": "Risk Management System",
+      "applies_to": ["high"],
+      "summary": "Establish, implement, document, and maintain a continuous iterative risk management system throughout the AI system's lifecycle.",
+      "key_actions": [
+        "Identify and analyse known and reasonably foreseeable risks",
+        "Estimate and evaluate risks from intended use and reasonably foreseeable misuse",
+        "Adopt suitable risk management measures",
+        "Test the AI system to identify the most appropriate measures"
+      ],
+      "effort": "medium",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_10": {
+      "number": 10,
+      "title": "Data and Data Governance",
+      "applies_to": ["high"],
+      "summary": "Training, validation, and testing datasets must meet quality criteria. Data governance and management practices must be established.",
+      "key_actions": [
+        "Establish data governance covering design choices, data collection, and preparation",
+        "Examine training data for possible biases",
+        "Identify relevant data gaps or shortcomings and how to address them",
+        "Ensure datasets are relevant, representative, free of errors, and complete"
+      ],
+      "effort": "high",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_11": {
+      "number": 11,
+      "title": "Technical Documentation",
+      "applies_to": ["high"],
+      "summary": "Prepare detailed technical documentation demonstrating compliance, providing authorities with information to assess compliance.",
+      "key_actions": [
+        "Document system description, purpose, and intended use",
+        "Document design specifications, architecture, and algorithms",
+        "Document data requirements and data governance measures",
+        "Document monitoring, functioning, and control measures",
+        "Document risk management measures taken"
+      ],
+      "effort": "high",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_12": {
+      "number": 12,
+      "title": "Record-Keeping (Logging)",
+      "applies_to": ["high"],
+      "summary": "High-risk AI systems must have automatic logging capabilities to ensure traceability of the system's functioning.",
+      "key_actions": [
+        "Enable automatic recording of events (logs) throughout system lifetime",
+        "Logging must allow monitoring of operation and post-market surveillance",
+        "Logs must be adequate to identify situations that may result in risk"
+      ],
+      "effort": "medium",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_13": {
+      "number": 13,
+      "title": "Transparency and Information to Deployers",
+      "applies_to": ["high"],
+      "summary": "High-risk AI systems must be designed to be sufficiently transparent for deployers to interpret and use output appropriately.",
+      "key_actions": [
+        "Provide clear instructions for use to downstream deployers",
+        "Include information about system performance, known limitations, and risks",
+        "Describe human oversight measures that need to be implemented"
+      ],
+      "effort": "medium",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_14": {
+      "number": 14,
+      "title": "Human Oversight",
+      "applies_to": ["high"],
+      "summary": "High-risk AI systems must be designed to allow effective human oversight during use.",
+      "key_actions": [
+        "Enable human operators to fully understand AI system capabilities and limitations",
+        "Allow humans to correctly interpret AI system output",
+        "Enable humans to decide not to use the system or override/reverse output",
+        "Enable humans to intervene or halt the system operation"
+      ],
+      "effort": "low",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_15": {
+      "number": 15,
+      "title": "Accuracy, Robustness, and Cybersecurity",
+      "applies_to": ["high"],
+      "summary": "High-risk AI systems must achieve appropriate levels of accuracy, robustness, and cybersecurity.",
+      "key_actions": [
+        "Declare and document accuracy levels and metrics",
+        "Design system to be resilient to errors, faults, and inconsistencies",
+        "Implement measures against adversarial manipulation (data poisoning, model evasion)",
+        "Address cybersecurity vulnerabilities"
+      ],
+      "effort": "medium",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_16": {
+      "number": 16,
+      "title": "Provider Obligations",
+      "applies_to": ["high"],
+      "summary": "Providers of high-risk AI systems have specific obligations including quality management, conformity assessment, and post-market monitoring.",
+      "key_actions": [
+        "Establish a quality management system (Article 17)",
+        "Conduct conformity assessment before placing system on market",
+        "Register in the EU public database (Article 49)",
+        "Implement post-market monitoring system",
+        "Report serious incidents to authorities"
+      ],
+      "effort": "high",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_49": {
+      "number": 49,
+      "title": "EU Database Registration",
+      "applies_to": ["high"],
+      "summary": "Providers must register high-risk AI systems in the EU public database before placing them on the market.",
+      "key_actions": [
+        "Register the AI system in the EU public database",
+        "Include system information, purpose, and provider details"
+      ],
+      "effort": "low",
+      "deadline": "Before placing system on EU market"
+    },
+    "article_50": {
+      "number": 50,
+      "title": "Transparency Obligations",
+      "applies_to": ["limited", "high"],
+      "summary": "AI systems interacting with people must disclose that the person is interacting with AI. Synthetic content must be labelled.",
+      "key_actions": [
+        "Inform users they are interacting with an AI system",
+        "Label AI-generated content as artificially generated or manipulated",
+        "Disclose emotion recognition or biometric categorisation to affected persons"
+      ],
+      "effort": "low",
+      "deadline": "Immediately applicable"
+    }
+  },
+  "penalties": {
+    "unacceptable": {
+      "description": "Use of prohibited AI practices",
+      "max_fine_eur": 35000000,
+      "max_fine_percent": 7,
+      "fine_basis": "Whichever is higher: EUR 35,000,000 or 7% of total worldwide annual turnover"
+    },
+    "high_risk_non_compliance": {
+      "description": "Non-compliance with high-risk AI requirements",
+      "max_fine_eur": 15000000,
+      "max_fine_percent": 3,
+      "fine_basis": "Whichever is higher: EUR 15,000,000 or 3% of total worldwide annual turnover"
+    },
+    "incorrect_information": {
+      "description": "Supplying incorrect, incomplete, or misleading information to authorities",
+      "max_fine_eur": 7500000,
+      "max_fine_percent": 1,
+      "fine_basis": "Whichever is higher: EUR 7,500,000 or 1% of total worldwide annual turnover"
+    },
+    "sme_reduction": {
+      "description": "SMEs and startups: fines are capped at the lower percentage threshold",
+      "note": "For SMEs including startups, the fine is the lower of the two amounts (fixed or percentage)"
+    }
+  },
+  "exemptions": {
+    "sme": {
+      "name": "SME / Startup Exemption",
+      "description": "Small and medium-sized enterprises receive proportional reductions in administrative burden.",
+      "effect": "Reduced documentation requirements. Simplified conformity procedures where possible. Lower fine caps (lesser of fixed amount or percentage).",
+      "criteria": "Fewer than 250 employees AND annual turnover not exceeding EUR 50 million"
+    },
+    "open_source": {
+      "name": "Open Source Exemption",
+      "description": "Free and open-source AI components are generally exempt from most requirements.",
+      "effect": "Exempt from provider obligations UNLESS the system is high-risk (Annex III) or prohibited (Article 5).",
+      "criteria": "Model or system is released under a free and open-source licence. Does NOT apply if the system falls under high-risk or prohibited categories."
+    },
+    "research": {
+      "name": "Research and Development Exemption",
+      "description": "AI systems used solely for research and development purposes are exempt.",
+      "effect": "Fully exempt from all requirements. Does NOT apply once the system is placed on the market or put into service.",
+      "criteria": "System is developed and used exclusively for scientific research and development, not deployed in production."
+    },
+    "personal_use": {
+      "name": "Personal / Non-Professional Use",
+      "description": "AI used by individuals for purely personal, non-professional activities is exempt.",
+      "effect": "Fully exempt from all requirements.",
+      "criteria": "Natural person using AI for personal, non-professional activity."
+    },
+    "military": {
+      "name": "Military and National Security",
+      "description": "AI systems developed or used exclusively for military or national security purposes.",
+      "effect": "Fully exempt from the AI Act.",
+      "criteria": "System is exclusively for military, defence, or national security purposes."
+    }
+  },
+  "timeline": {
+    "entry_into_force": "2024-08-01",
+    "prohibited_practices_ban": "2025-02-02",
+    "gpai_rules_apply": "2025-08-02",
+    "high_risk_obligations": "2026-08-02",
+    "full_enforcement": "2027-08-02",
+    "note": "High-risk AI system obligations apply from August 2, 2026. Full enforcement including all Annex I systems from August 2, 2027."
+  }
+}
