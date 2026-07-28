@@ -8,20 +8,13 @@ import {
 } from "@clerk/nextjs";
 import { PricingTable } from "@/components/pricing-table";
 import { FaqAccordion } from "@/components/faq-accordion";
+import { EnforcementCountdown } from "@/components/enforcement-countdown";
 
 export const metadata: Metadata = {
   title: "Regulait - EU AI Act Compliance Checker",
   description:
     "Classify your AI system under the EU AI Act in minutes. Get your risk tier, required actions, and a compliance report before enforcement begins August 2, 2026.",
 };
-
-const ENFORCEMENT_DATE = new Date("2026-08-02T00:00:00Z");
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
-
-function daysUntilEnforcement(): number {
-  const diff = ENFORCEMENT_DATE.getTime() - Date.now();
-  return Math.max(0, Math.ceil(diff / MS_PER_DAY));
-}
 
 const STEPS = [
   {
@@ -66,8 +59,6 @@ const VALUE_PROPS = [
 ];
 
 export default function Home() {
-  const daysLeft = daysUntilEnforcement();
-
   return (
     <main>
       {/* Header */}
@@ -133,9 +124,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center rounded-full bg-danger px-3 py-1 font-mono text-xs font-semibold uppercase tracking-widest text-canvas">
-              {daysLeft} {daysLeft === 1 ? "day" : "days"} until enforcement
-            </span>
+            <EnforcementCountdown />
             <span className="font-mono text-xs uppercase tracking-widest text-ink-muted">
               EU AI Act &middot; Article 5 / Annex III
             </span>
