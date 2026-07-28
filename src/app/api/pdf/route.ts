@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 import { generateReportPDF } from "@/lib/pdf";
 import type { ComplianceReport } from "@/lib/report-generator";
 
@@ -14,22 +15,21 @@ export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { userId } = await auth();
 
-    if (!user) {
+    if (!userId) {
       return NextResponse.json(
         { error: "Sign in required to export PDFs." },
         { status: 401 }
       );
     }
 
+    const supabase = createServiceRoleClient();
+
     const { data: subscription } = await supabase
       .from("subscriptions")
       .select("plan, status")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .eq("status", "active")
       .in("plan", ["pro", "agency"])
       .maybeSingle();

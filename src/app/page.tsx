@@ -1,5 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/nextjs";
 import { PricingTable } from "@/components/pricing-table";
 import { FaqAccordion } from "@/components/faq-accordion";
 
@@ -93,12 +99,33 @@ export default function Home() {
               FAQ
             </a>
           </nav>
-          <Link
-            href="/scan"
-            className="inline-flex items-center rounded-sm bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
-          >
-            Start scan
-          </Link>
+          <div className="flex items-center gap-4">
+            <SignedIn>
+              <Link
+                href="/dashboard"
+                className="hidden text-sm text-ink-muted transition-colors hover:text-ink sm:inline"
+              >
+                Dashboard
+              </Link>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button
+                  type="button"
+                  className="hidden text-sm text-ink-muted transition-colors hover:text-ink sm:inline"
+                >
+                  Sign in
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <Link
+              href="/scan"
+              className="inline-flex items-center rounded-sm bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
+            >
+              Start scan
+            </Link>
+          </div>
         </div>
       </header>
 

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import type { ComplianceReport } from "@/lib/report-generator";
 import { RiskBadge } from "@/components/risk-badge";
 import { RequirementCard } from "@/components/requirement-card";
-import { createBrowserClient } from "@/lib/supabase/client";
 
 const eurFormatter = new Intl.NumberFormat("en-IE", {
   style: "currency",
@@ -76,25 +75,11 @@ function PdfDownloadButton({ report }: { report: ComplianceReport }) {
 
     async function checkPlan() {
       try {
-        const supabase = createBrowserClient();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (!user) {
-          if (!cancelled) setPlan("anon");
-          return;
-        }
-
-        const { data: subscription } = await supabase
-          .from("subscriptions")
-          .select("plan, status")
-          .eq("user_id", user.id)
-          .eq("status", "active")
-          .in("plan", ["pro", "agency"])
-          .maybeSingle();
-
-        if (!cancelled) setPlan(subscription ? "pro" : "free");
+        const response = await fetch("/api/subscription");
+        const data = await response.json().catch(() => null);
+        const nextPlan: PlanState =
+          data?.plan === "pro" || data?.plan === "anon" ? data.plan : "free";
+        if (!cancelled) setPlan(nextPlan);
       } catch {
         if (!cancelled) setPlan("free");
       }

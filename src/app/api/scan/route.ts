@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { classify } from "@/lib/classifier";
 import { generateReport } from "@/lib/report-generator";
-import { createServerClient } from "@/lib/supabase/server";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 import type { StructuredInput } from "@/lib/rules";
 
 export async function POST(request: NextRequest) {
@@ -35,14 +36,13 @@ export async function POST(request: NextRequest) {
     // localStorage, so a failure here must never break the response --
     // it's only logged.
     try {
-      const supabase = await createServerClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      // Anonymous scans are allowed -- userId is null when not signed in.
+      const { userId } = await auth();
+      const supabase = createServiceRoleClient();
 
       await supabase.from("scans").insert({
         id: report.id,
-        user_id: user?.id ?? null,
+        user_id: userId ?? null,
         product_desc: product_description,
         structured_input,
         risk_tier: report.risk_tier,

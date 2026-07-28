@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { createCheckoutSession } from "@/lib/stripe";
 
 const PRICE_IDS: Record<string, string | undefined> = {
@@ -9,12 +9,9 @@ const PRICE_IDS: Record<string, string | undefined> = {
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createServerClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { userId } = await auth();
 
-    if (!user) {
+    if (!userId) {
       return NextResponse.json(
         { error: "Sign in required to upgrade." },
         { status: 401 }
@@ -32,12 +29,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const user = await currentUser();
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? request.nextUrl.origin;
     const session = await createCheckoutSession(
       priceId,
-      user.id,
+      userId,
       `${appUrl}/dashboard`,
-      user.email ?? undefined
+      user?.primaryEmailAddress?.emailAddress
     );
 
     if (!session.url) {

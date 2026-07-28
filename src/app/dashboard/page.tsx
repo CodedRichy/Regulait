@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { createServerClient } from "@/lib/supabase/server";
-import { LoginForm } from "@/components/login-form";
+import { currentUser } from "@clerk/nextjs/server";
+import { UserButton } from "@clerk/nextjs";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 import type { RiskTier } from "@/lib/knowledge-base";
 
 const dateFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -29,38 +30,16 @@ function truncate(text: string, max = 140) {
   return trimmed.length > max ? `${trimmed.slice(0, max).trimEnd()}...` : trimmed;
 }
 
-async function signOutAction() {
-  "use server";
-  const supabase = await createServerClient();
-  await supabase.auth.signOut();
-  redirect("/dashboard");
-}
-
 export default async function DashboardPage() {
-  const supabase = await createServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Belt-and-suspenders: middleware already gates /dashboard, but a direct
+  // render (e.g. during static analysis) shouldn't assume a signed-in user.
+  const user = await currentUser();
 
   if (!user) {
-    return (
-      <main className="mx-auto max-w-sm px-4 py-20 sm:py-28">
-        <p className="text-center font-mono text-xs uppercase tracking-widest text-ink-muted">
-          Dashboard
-        </p>
-        <h1 className="mt-1 text-center font-heading text-2xl font-semibold tracking-tight text-ink">
-          Sign in to continue
-        </h1>
-        <p className="mx-auto mt-3 max-w-xs text-center text-sm leading-relaxed text-ink-muted">
-          We&apos;ll email you a one-time link -- no password needed.
-        </p>
-        <div className="mt-8">
-          <LoginForm />
-        </div>
-      </main>
-    );
+    redirect("/sign-in");
   }
 
+  const supabase = createServiceRoleClient();
   const { data: scans, error } = await supabase
     .from("scans")
     .select("id, product_desc, risk_tier, created_at")
@@ -74,27 +53,20 @@ export default async function DashboardPage() {
       <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-            {user.email}
+            {user.primaryEmailAddress?.emailAddress ?? "Signed in"}
           </p>
           <h1 className="mt-1 font-heading text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
             Your scans
           </h1>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-3">
           <Link
             href="/scan"
             className="inline-flex items-center rounded-sm bg-accent px-4 py-2 font-heading text-sm font-semibold tracking-wide text-canvas transition-colors hover:bg-accent-strong"
           >
             New scan
           </Link>
-          <form action={signOutAction}>
-            <button
-              type="submit"
-              className="inline-flex items-center rounded-sm border border-border px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-ink-muted"
-            >
-              Sign out
-            </button>
-          </form>
+          <UserButton afterSignOutUrl="/" />
         </div>
       </div>
 
