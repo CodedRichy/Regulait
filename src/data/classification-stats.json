@@ -1,0 +1,833 @@
+{
+  "totalSystems": 75,
+  "tierDistribution": {
+    "unacceptable": 5,
+    "high": 35,
+    "limited": 15,
+    "minimal": 8,
+    "ambiguous": 12
+  },
+  "tierSystems": {
+    "unacceptable": [
+      "Government Social Credit System",
+      "Citizen Behaviour Tracker",
+      "Subliminal Ad Engine",
+      "Street Surveillance Biometrics",
+      "Public Space Face Scanner"
+    ],
+    "high": [
+      "Face ID Access Control",
+      "Airport Biometric Gate",
+      "HR Resume Screener",
+      "Talent Acquisition AI",
+      "Hiring Pipeline Ranker",
+      "Bank Credit Scorer",
+      "Mortgage Risk Model",
+      "Loan Approval Engine",
+      "Exam Grading AI",
+      "University Admissions AI",
+      "Student Assessment Tool",
+      "Radiology AI Assistant",
+      "Clinical Decision Support",
+      "Pathology Slide Analyzer",
+      "Mental Health Diagnostic",
+      "Drug Interaction Checker",
+      "Predictive Policing Tool",
+      "Recidivism Predictor",
+      "Traffic Safety AI",
+      "Power Grid Controller",
+      "Visa Processing AI",
+      "Asylum Case Evaluator",
+      "Border Control Scanner",
+      "Health Insurance Pricer",
+      "Life Insurance Underwriter",
+      "Fingerprint ID System",
+      "Voice Biometric Auth",
+      "Employee Performance AI",
+      "Emotion Detection Cam",
+      "Medical Imaging Startup",
+      "Water Supply Monitor",
+      "Dental AI Diagnostics",
+      "Evidence Analyzer",
+      "Immigration Risk Score",
+      "Auto Insurance Health AI"
+    ],
+    "limited": [
+      "Customer Support Bot",
+      "E-commerce Assistant",
+      "Banking Chatbot",
+      "HR Help Desk Bot",
+      "Travel Booking Assistant",
+      "Video Deepfake Detector",
+      "Voice Cloning Studio",
+      "AI News Writer",
+      "Synthetic Media Platform",
+      "AI Article Generator",
+      "Face Swap App",
+      "Podcast Voice Clone",
+      "Real Estate Chatbot",
+      "IT Support Virtual Agent",
+      "Legal Q&A Bot"
+    ],
+    "minimal": [
+      "Email Spam Filter",
+      "Enterprise Spam Guard",
+      "Mobile Game AI",
+      "RPG Game Engine",
+      "Warehouse Optimizer",
+      "Supply Chain Inventory",
+      "E-commerce Search",
+      "Content Search Engine"
+    ],
+    "ambiguous": [
+      "Photo Filter App",
+      "Music Recommender",
+      "Weather Forecaster",
+      "Recipe Suggester",
+      "Fitness Tracker AI",
+      "Translation Tool",
+      "Parking Finder",
+      "Sentiment Analyzer",
+      "Price Optimizer",
+      "Fraud Detector",
+      "Ad Targeting Engine",
+      "Document Classifier"
+    ]
+  },
+  "ruleFrequency": [
+    {
+      "rule": "medical_device",
+      "count": 10
+    },
+    {
+      "rule": "chatbot",
+      "count": 8
+    },
+    {
+      "rule": "biometric_identification",
+      "count": 5
+    },
+    {
+      "rule": "resume_screening",
+      "count": 5
+    },
+    {
+      "rule": "deepfake_generation",
+      "count": 5
+    },
+    {
+      "rule": "insurance_risk",
+      "count": 4
+    },
+    {
+      "rule": "migration_border",
+      "count": 4
+    },
+    {
+      "rule": "credit_scoring",
+      "count": 3
+    },
+    {
+      "rule": "education_grading",
+      "count": 3
+    },
+    {
+      "rule": "law_enforcement",
+      "count": 3
+    },
+    {
+      "rule": "critical_infrastructure",
+      "count": 3
+    },
+    {
+      "rule": "social_scoring",
+      "count": 2
+    },
+    {
+      "rule": "realtime_biometric_public",
+      "count": 2
+    },
+    {
+      "rule": "content_generation",
+      "count": 2
+    },
+    {
+      "rule": "spam_filter",
+      "count": 2
+    },
+    {
+      "rule": "game_ai",
+      "count": 2
+    },
+    {
+      "rule": "inventory_management",
+      "count": 2
+    },
+    {
+      "rule": "search_ranking",
+      "count": 2
+    },
+    {
+      "rule": "subliminal_manipulation",
+      "count": 1
+    }
+  ],
+  "results": [
+    {
+      "name": "Government Social Credit System",
+      "risk_tier": "unacceptable",
+      "confident": true,
+      "matched_rules": [
+        "social_scoring"
+      ],
+      "reasoning": "Social scoring by or on behalf of public authorities is a prohibited practice under Article 5."
+    },
+    {
+      "name": "Citizen Behaviour Tracker",
+      "risk_tier": "unacceptable",
+      "confident": true,
+      "matched_rules": [
+        "social_scoring"
+      ],
+      "reasoning": "Social scoring by or on behalf of public authorities is a prohibited practice under Article 5."
+    },
+    {
+      "name": "Subliminal Ad Engine",
+      "risk_tier": "unacceptable",
+      "confident": true,
+      "matched_rules": [
+        "subliminal_manipulation"
+      ],
+      "reasoning": "AI systems that deploy subliminal techniques to materially distort behaviour causing harm are prohibited under Article 5."
+    },
+    {
+      "name": "Street Surveillance Biometrics",
+      "risk_tier": "unacceptable",
+      "confident": true,
+      "matched_rules": [
+        "realtime_biometric_public"
+      ],
+      "reasoning": "Real-time remote biometric identification in publicly accessible spaces for law enforcement is prohibited under Article 5 (with narrow exceptions)."
+    },
+    {
+      "name": "Public Space Face Scanner",
+      "risk_tier": "unacceptable",
+      "confident": true,
+      "matched_rules": [
+        "realtime_biometric_public"
+      ],
+      "reasoning": "Real-time remote biometric identification in publicly accessible spaces for law enforcement is prohibited under Article 5 (with narrow exceptions)."
+    },
+    {
+      "name": "Face ID Access Control",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "biometric_identification"
+      ],
+      "reasoning": "Biometric identification and categorisation systems are classified as high-risk under Annex III, Category 1."
+    },
+    {
+      "name": "Airport Biometric Gate",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "biometric_identification"
+      ],
+      "reasoning": "Biometric identification and categorisation systems are classified as high-risk under Annex III, Category 1."
+    },
+    {
+      "name": "HR Resume Screener",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "resume_screening"
+      ],
+      "reasoning": "AI systems used for screening/filtering job applications or evaluating candidates are high-risk under Annex III, Category 4 (Employment)."
+    },
+    {
+      "name": "Talent Acquisition AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "resume_screening"
+      ],
+      "reasoning": "AI systems used for screening/filtering job applications or evaluating candidates are high-risk under Annex III, Category 4 (Employment)."
+    },
+    {
+      "name": "Hiring Pipeline Ranker",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "resume_screening"
+      ],
+      "reasoning": "AI systems used for screening/filtering job applications or evaluating candidates are high-risk under Annex III, Category 4 (Employment)."
+    },
+    {
+      "name": "Bank Credit Scorer",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "resume_screening",
+        "credit_scoring"
+      ],
+      "reasoning": "AI systems used for screening/filtering job applications or evaluating candidates are high-risk under Annex III, Category 4 (Employment). AI systems evaluating creditworthiness are high-risk under Annex III, Category 5 (Access to essential services)."
+    },
+    {
+      "name": "Mortgage Risk Model",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "credit_scoring"
+      ],
+      "reasoning": "AI systems evaluating creditworthiness are high-risk under Annex III, Category 5 (Access to essential services)."
+    },
+    {
+      "name": "Loan Approval Engine",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "credit_scoring"
+      ],
+      "reasoning": "AI systems evaluating creditworthiness are high-risk under Annex III, Category 5 (Access to essential services)."
+    },
+    {
+      "name": "Exam Grading AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "education_grading"
+      ],
+      "reasoning": "AI systems determining access to education or evaluating learning outcomes are high-risk under Annex III, Category 3."
+    },
+    {
+      "name": "University Admissions AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "education_grading"
+      ],
+      "reasoning": "AI systems determining access to education or evaluating learning outcomes are high-risk under Annex III, Category 3."
+    },
+    {
+      "name": "Student Assessment Tool",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "education_grading"
+      ],
+      "reasoning": "AI systems determining access to education or evaluating learning outcomes are high-risk under Annex III, Category 3."
+    },
+    {
+      "name": "Radiology AI Assistant",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Clinical Decision Support",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Pathology Slide Analyzer",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Mental Health Diagnostic",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device",
+        "insurance_risk"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I. AI for risk assessment and pricing in life and health insurance is high-risk under Annex III, Category 5."
+    },
+    {
+      "name": "Drug Interaction Checker",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Predictive Policing Tool",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "law_enforcement"
+      ],
+      "reasoning": "AI systems used in law enforcement are high-risk under Annex III, Category 6."
+    },
+    {
+      "name": "Recidivism Predictor",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "law_enforcement"
+      ],
+      "reasoning": "AI systems used in law enforcement are high-risk under Annex III, Category 6."
+    },
+    {
+      "name": "Traffic Safety AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "critical_infrastructure"
+      ],
+      "reasoning": "AI used as safety components of critical infrastructure management is high-risk under Annex III, Category 2."
+    },
+    {
+      "name": "Power Grid Controller",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "critical_infrastructure"
+      ],
+      "reasoning": "AI used as safety components of critical infrastructure management is high-risk under Annex III, Category 2."
+    },
+    {
+      "name": "Visa Processing AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "migration_border"
+      ],
+      "reasoning": "AI systems used in migration, asylum, and border control are high-risk under Annex III, Category 7."
+    },
+    {
+      "name": "Asylum Case Evaluator",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "migration_border"
+      ],
+      "reasoning": "AI systems used in migration, asylum, and border control are high-risk under Annex III, Category 7."
+    },
+    {
+      "name": "Border Control Scanner",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "migration_border"
+      ],
+      "reasoning": "AI systems used in migration, asylum, and border control are high-risk under Annex III, Category 7."
+    },
+    {
+      "name": "Health Insurance Pricer",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device",
+        "insurance_risk"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I. AI for risk assessment and pricing in life and health insurance is high-risk under Annex III, Category 5."
+    },
+    {
+      "name": "Life Insurance Underwriter",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device",
+        "insurance_risk"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I. AI for risk assessment and pricing in life and health insurance is high-risk under Annex III, Category 5."
+    },
+    {
+      "name": "Fingerprint ID System",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "biometric_identification"
+      ],
+      "reasoning": "Biometric identification and categorisation systems are classified as high-risk under Annex III, Category 1."
+    },
+    {
+      "name": "Voice Biometric Auth",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "biometric_identification"
+      ],
+      "reasoning": "Biometric identification and categorisation systems are classified as high-risk under Annex III, Category 1."
+    },
+    {
+      "name": "Employee Performance AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "resume_screening"
+      ],
+      "reasoning": "AI systems used for screening/filtering job applications or evaluating candidates are high-risk under Annex III, Category 4 (Employment)."
+    },
+    {
+      "name": "Emotion Detection Cam",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "biometric_identification"
+      ],
+      "reasoning": "Biometric identification and categorisation systems are classified as high-risk under Annex III, Category 1."
+    },
+    {
+      "name": "Medical Imaging Startup",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Water Supply Monitor",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "critical_infrastructure"
+      ],
+      "reasoning": "AI used as safety components of critical infrastructure management is high-risk under Annex III, Category 2."
+    },
+    {
+      "name": "Dental AI Diagnostics",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I."
+    },
+    {
+      "name": "Evidence Analyzer",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "law_enforcement"
+      ],
+      "reasoning": "AI systems used in law enforcement are high-risk under Annex III, Category 6."
+    },
+    {
+      "name": "Immigration Risk Score",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "migration_border"
+      ],
+      "reasoning": "AI systems used in migration, asylum, and border control are high-risk under Annex III, Category 7."
+    },
+    {
+      "name": "Auto Insurance Health AI",
+      "risk_tier": "high",
+      "confident": true,
+      "matched_rules": [
+        "medical_device",
+        "insurance_risk"
+      ],
+      "reasoning": "AI used as a medical device or for health diagnostics is high-risk. Medical AI systems fall under EU product safety legislation referenced in Annex I. AI for risk assessment and pricing in life and health insurance is high-risk under Annex III, Category 5."
+    },
+    {
+      "name": "Customer Support Bot",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "E-commerce Assistant",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "Banking Chatbot",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "HR Help Desk Bot",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "Travel Booking Assistant",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "Video Deepfake Detector",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "deepfake_generation"
+      ],
+      "reasoning": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled under Article 50."
+    },
+    {
+      "name": "Voice Cloning Studio",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "deepfake_generation"
+      ],
+      "reasoning": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled under Article 50."
+    },
+    {
+      "name": "AI News Writer",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "content_generation"
+      ],
+      "reasoning": "AI-generated text published for public information must be labelled as AI-generated under Article 50."
+    },
+    {
+      "name": "Synthetic Media Platform",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "deepfake_generation"
+      ],
+      "reasoning": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled under Article 50."
+    },
+    {
+      "name": "AI Article Generator",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "content_generation"
+      ],
+      "reasoning": "AI-generated text published for public information must be labelled as AI-generated under Article 50."
+    },
+    {
+      "name": "Face Swap App",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "deepfake_generation"
+      ],
+      "reasoning": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled under Article 50."
+    },
+    {
+      "name": "Podcast Voice Clone",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "deepfake_generation"
+      ],
+      "reasoning": "AI-generated or manipulated image, audio, or video content (deepfakes) must be labelled under Article 50."
+    },
+    {
+      "name": "Real Estate Chatbot",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "IT Support Virtual Agent",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "Legal Q&A Bot",
+      "risk_tier": "limited",
+      "confident": true,
+      "matched_rules": [
+        "chatbot"
+      ],
+      "reasoning": "AI systems that interact with people (chatbots, virtual assistants) have transparency obligations under Article 50."
+    },
+    {
+      "name": "Email Spam Filter",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "spam_filter"
+      ],
+      "reasoning": "Spam filtering is a minimal-risk AI application with no specific requirements under the EU AI Act."
+    },
+    {
+      "name": "Enterprise Spam Guard",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "spam_filter"
+      ],
+      "reasoning": "Spam filtering is a minimal-risk AI application with no specific requirements under the EU AI Act."
+    },
+    {
+      "name": "Mobile Game AI",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "game_ai"
+      ],
+      "reasoning": "AI in video games is a minimal-risk application with no specific requirements under the EU AI Act."
+    },
+    {
+      "name": "RPG Game Engine",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "game_ai"
+      ],
+      "reasoning": "AI in video games is a minimal-risk application with no specific requirements under the EU AI Act."
+    },
+    {
+      "name": "Warehouse Optimizer",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "inventory_management"
+      ],
+      "reasoning": "AI-powered inventory management is a minimal-risk application with no specific requirements."
+    },
+    {
+      "name": "Supply Chain Inventory",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "inventory_management"
+      ],
+      "reasoning": "AI-powered inventory management is a minimal-risk application with no specific requirements."
+    },
+    {
+      "name": "E-commerce Search",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "search_ranking"
+      ],
+      "reasoning": "Search ranking and recommendation systems (that are not in high-risk domains) are minimal-risk."
+    },
+    {
+      "name": "Content Search Engine",
+      "risk_tier": "minimal",
+      "confident": true,
+      "matched_rules": [
+        "search_ranking"
+      ],
+      "reasoning": "Search ranking and recommendation systems (that are not in high-risk domains) are minimal-risk."
+    },
+    {
+      "name": "Photo Filter App",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Music Recommender",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Weather Forecaster",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Recipe Suggester",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Fitness Tracker AI",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Translation Tool",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Parking Finder",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Sentiment Analyzer",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Price Optimizer",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Fraud Detector",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Ad Targeting Engine",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    },
+    {
+      "name": "Document Classifier",
+      "risk_tier": "ambiguous",
+      "confident": false,
+      "matched_rules": [],
+      "reasoning": "No deterministic rules matched. Requires LLM classification for ambiguous case."
+    }
+  ]
+}

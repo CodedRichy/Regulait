@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { FaqAccordion } from "@/components/faq-accordion";
 import { EnforcementCountdown } from "@/components/enforcement-countdown";
+import { ClassificationCharts } from "@/components/classification-charts";
 
 export const metadata: Metadata = {
   title: "Regulait - EU AI Act Compliance Checker",
@@ -95,7 +96,7 @@ export default function Home() {
       </header>
 
       {/* Hero */}
-      <section className="hero-mesh px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24">
+      <section className="hero-mesh flex min-h-screen flex-col items-center justify-center px-4 sm:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <EnforcementCountdown />
@@ -131,12 +132,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Classification coverage */}
+      <section className="border-t border-border/60">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-border/40 sm:grid-cols-4">
+          {[
+            { value: "4", label: "Risk tiers classified" },
+            { value: "85+", label: "Articles covered" },
+            { value: "20+", label: "Detection rules" },
+            { value: "<2 min", label: "Time to classify" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-canvas px-6 py-10 text-center sm:py-12"
+            >
+              <p className="font-heading text-3xl font-semibold tracking-tight text-accent sm:text-4xl">
+                {stat.value}
+              </p>
+              <p className="mt-1 text-sm text-ink-muted">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* How it works */}
       <section
         id="how-it-works"
-        className="border-t border-border/60 bg-surface"
+        className="flex min-h-screen flex-col items-center justify-center border-t border-border/60 bg-surface"
       >
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-14 max-w-xl">
             <p className="font-mono text-xs uppercase tracking-widest text-accent">
               Process
@@ -175,8 +198,8 @@ export default function Home() {
       </section>
 
       {/* Value props */}
-      <section className="px-4 py-20 sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-6xl">
+      <section className="flex min-h-screen flex-col items-center justify-center px-4 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto w-full max-w-6xl">
           <div className="mb-14 max-w-xl">
             <p className="font-mono text-xs uppercase tracking-widest text-accent">
               What you get
@@ -207,8 +230,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Classification telemetry */}
+      <ClassificationCharts />
+
       {/* FAQ */}
-      <section id="faq" className="mx-auto max-w-3xl px-4 py-20 sm:px-6 sm:py-24">
+      <section id="faq" className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-8 max-w-xl">
           <p className="font-mono text-xs uppercase tracking-widest text-accent">
             FAQ
@@ -222,39 +248,94 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/60">
-        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-          <div className="glass-card rounded-[10px] p-6 sm:p-7">
-            <p className="text-sm leading-relaxed text-ink-muted">
-              <span className="font-medium text-ink">Disclaimer.</span>{" "}
-              Regulait provides informational guidance generated from
-              self-reported information and our interpretation of the EU AI
-              Act. It does not constitute legal advice and should not be
-              relied upon as a substitute for consultation with a qualified
-              legal professional. Regulait makes no warranty as to the
-              accuracy or completeness of any classification or report and
-              accepts no liability for decisions made on the basis of it.
-            </p>
-          </div>
-
-          <div className="mt-8 flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="font-heading text-sm font-semibold tracking-tight text-ink">
-              Regulait
-            </p>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://rishipraseeth.in/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-xs text-ink-muted transition-colors hover:text-accent"
-              >
-                Built by CodedRichy
-              </a>
-              <span className="text-border-strong">&middot;</span>
-              <p className="font-mono text-xs uppercase tracking-widest text-ink-muted">
-                &copy; 2026 &middot; Not legal advice
+      <footer className="border-t border-border/60 bg-surface">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+          <div className="grid gap-10 sm:grid-cols-3">
+            <div>
+              <p className="font-heading text-lg font-semibold tracking-tight text-ink">
+                Regulait
+              </p>
+              <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-muted">
+                Free, open-source EU AI Act compliance checker. Classify your
+                AI system and get actionable requirements before enforcement
+                begins.
               </p>
             </div>
+
+            <div>
+              <p className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                Product
+              </p>
+              <ul className="mt-3 space-y-2">
+                <li>
+                  <Link href="/scan" className="text-sm text-ink-muted transition-colors hover:text-ink">
+                    Start a scan
+                  </Link>
+                </li>
+                <li>
+                  <a href="#how-it-works" className="text-sm text-ink-muted transition-colors hover:text-ink">
+                    How it works
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="text-sm text-ink-muted transition-colors hover:text-ink">
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <Link href="/settings" className="text-sm text-ink-muted transition-colors hover:text-ink">
+                    Settings
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="font-heading text-xs font-semibold uppercase tracking-widest text-ink-muted">
+                Creator
+              </p>
+              <p className="mt-3 text-sm text-ink">
+                Built by{" "}
+                <a
+                  href="https://rishipraseeth.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-accent transition-colors hover:text-accent-strong"
+                >
+                  CodedRichy
+                </a>
+              </p>
+              <div className="mt-2 flex gap-4">
+                <a
+                  href="https://rishipraseeth.in/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-ink-muted transition-colors hover:text-ink"
+                >
+                  Portfolio
+                </a>
+                <a
+                  href="https://github.com/codedrichy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-ink-muted transition-colors hover:text-ink"
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-border/60 pt-6">
+            <p className="text-xs leading-relaxed text-ink-muted">
+              <span className="font-medium text-ink-muted">Disclaimer:</span>{" "}
+              Regulait provides informational guidance, not legal advice. It
+              should not be relied upon as a substitute for consultation with
+              a qualified legal professional.
+            </p>
+            <p className="mt-3 font-mono text-xs text-ink-muted">
+              &copy; 2026 Regulait
+            </p>
           </div>
         </div>
       </footer>
