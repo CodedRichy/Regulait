@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { classify } from "@/lib/classifier";
 import { generateReport } from "@/lib/report-generator";
+import { createServerClient } from "@/lib/supabase/server";
 import type { StructuredInput } from "@/lib/rules";
 
 export async function POST(request: NextRequest) {
@@ -28,6 +29,29 @@ export async function POST(request: NextRequest) {
 
     const classification = await classify(product_description, structured_input);
     const report = generateReport(classification);
+
+    // Best-effort persistence so signed-in users see this scan on their
+    // dashboard. The client already holds the full report in-memory/
+    // localStorage, so a failure here must never break the response --
+    // it's only logged.
+    try {
+      const supabase = await createServerClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      await supabase.from("scans").insert({
+        id: report.id,
+        user_id: user?.id ?? null,
+        product_desc: product_description,
+        structured_input,
+        risk_tier: report.risk_tier,
+        report,
+        created_at: report.created_at,
+      });
+    } catch (persistError) {
+      console.error("Scan persistence failed:", persistError);
+    }
 
     return NextResponse.json({
       report_id: report.id,

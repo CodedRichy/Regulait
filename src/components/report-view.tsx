@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ComplianceReport } from "@/lib/report-generator";
 import { RiskBadge } from "@/components/risk-badge";
 import { RequirementCard } from "@/components/requirement-card";
+import { createBrowserClient } from "@/lib/supabase/client";
 
 const eurFormatter = new Intl.NumberFormat("en-IE", {
   style: "currency",
@@ -61,14 +62,129 @@ function ShareButton() {
   );
 }
 
-function PdfDownloadButton() {
+type PlanState = "checking" | "anon" | "free" | "pro";
+
+function PdfDownloadButton({ report }: { report: ComplianceReport }) {
+  const [plan, setPlan] = useState<PlanState>("checking");
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function checkPlan() {
+      try {
+        const supabase = createBrowserClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (!user) {
+          if (!cancelled) setPlan("anon");
+          return;
+        }
+
+        const { data: subscription } = await supabase
+          .from("subscriptions")
+          .select("plan, status")
+          .eq("user_id", user.id)
+          .eq("status", "active")
+          .in("plan", ["pro", "agency"])
+          .maybeSingle();
+
+        if (!cancelled) setPlan(subscription ? "pro" : "free");
+      } catch {
+        if (!cancelled) setPlan("free");
+      }
+    }
+
+    checkPlan();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function handleDownload() {
+    setDownloading(true);
+    setErrorMsg(null);
+    try {
+      const response = await fetch("/api/pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ report }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error ?? "PDF generation failed.");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `regulait-report-${report.id}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "PDF generation failed."
+      );
+    } finally {
+      setDownloading(false);
+    }
+  }
+
+  async function handleUpgrade() {
+    setRedirecting(true);
+    setErrorMsg(null);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: "pro" }),
+      });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.url) {
+        throw new Error(data?.error ?? "Could not start checkout.");
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      setErrorMsg(
+        err instanceof Error ? err.message : "Could not start checkout."
+      );
+      setRedirecting(false);
+    }
+  }
+
+  if (plan === "pro") {
+    return (
+      <div className="inline-flex flex-col items-end gap-1">
+        <button
+          type="button"
+          onClick={handleDownload}
+          disabled={downloading}
+          className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {downloading ? "Generating PDF..." : "Download PDF"}
+        </button>
+        {errorMsg && <p className="text-xs text-danger">{errorMsg}</p>}
+      </div>
+    );
+  }
 
   return (
     <div className="relative inline-block">
       <button
         type="button"
         onClick={() => setShowUpgrade((v) => !v)}
+        aria-expanded={showUpgrade}
         className="inline-flex items-center gap-2 rounded-sm bg-accent px-4 py-2 text-sm font-medium text-canvas transition-colors hover:bg-accent-strong"
       >
         Download PDF
@@ -85,6 +201,24 @@ function PdfDownloadButton() {
             PDF export is a Pro feature. Upgrade your account to download a
             shareable, print-ready compliance report.
           </p>
+          {plan === "anon" ? (
+            <a
+              href="/dashboard"
+              className="mt-3 inline-flex w-full items-center justify-center rounded-sm bg-accent px-3 py-2 font-medium text-canvas transition-colors hover:bg-accent-strong"
+            >
+              Sign in to upgrade
+            </a>
+          ) : (
+            <button
+              type="button"
+              onClick={handleUpgrade}
+              disabled={redirecting}
+              className="mt-3 inline-flex w-full items-center justify-center rounded-sm bg-accent px-3 py-2 font-medium text-canvas transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {redirecting ? "Redirecting..." : "Upgrade -- $29/mo"}
+            </button>
+          )}
+          {errorMsg && <p className="mt-2 text-danger">{errorMsg}</p>}
         </div>
       )}
     </div>
@@ -114,7 +248,7 @@ export function ReportView({ report }: { report: ComplianceReport }) {
         </div>
         <div className="flex shrink-0 flex-wrap items-center gap-2">
           <ShareButton />
-          <PdfDownloadButton />
+          <PdfDownloadButton report={report} />
         </div>
       </div>
 
